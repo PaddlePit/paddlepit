@@ -1,0 +1,33 @@
+[project]
+name = "paddlepit"
+version = "0.1.0"
+description = "This runs the backend of both PaddlePit's user-facing website and admin dashboard"
+readme = "README.md"
+authors = [
+    { name = "ThatDott", email = "justinsanveloso@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "boto3>=1.43.74",
+    "fastapi[standard]>=0.141.1",
+    "mangum>=0.21.0",
+    "pydantic-settings>=2.15.0",
+    "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+api = "api:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.3",
+]
+
+[tool.fastapi]
+entrypoint = "paddlepit.main:app"
