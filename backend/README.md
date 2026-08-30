@@ -13,7 +13,7 @@ uv sync
 Start the development server:
 
 ```bash
-uv run fastapi dev
+uv run fastapi dev main.py
 ```
 
 API:

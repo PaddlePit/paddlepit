@@ -15,9 +15,6 @@ dependencies = [
     "uvicorn>=0.52.4",
 ]
 
-[project.scripts]
-api = "api:main"
-
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]
 build-backend = "uv_build"
@@ -29,5 +26,5 @@ dev = [
     "ruff>=0.16.3",
 ]
 
-[tool.fastapi]
-entrypoint = "paddlepit.main:app"
+[tool.uv]
+package = false
