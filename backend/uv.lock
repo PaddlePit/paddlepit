@@ -403,7 +403,7 @@ wheels = [
 [[package]]
 name = "paddlepit"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "boto3" },
     { name = "fastapi", extra = ["standard"] },

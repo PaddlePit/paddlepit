@@ -95,7 +95,7 @@ paddlepit/
 │   ├── web-app/              # Customer booking platform
 │   └── admin-app/            # Business management dashboard
 │
-├── api/                      # FastAPI backend service
+├── backend/                  # FastAPI backend service
 │
 ├── packages/                 # Shared components and utilities
 │
