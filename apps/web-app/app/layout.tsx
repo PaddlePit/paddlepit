@@ -3,9 +3,9 @@ import "./globals.css";
 import { Roboto, Roboto_Slab } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const robotoSlabHeading = Roboto_Slab({subsets:['latin'],variable:'--font-heading'});
+const robotoSlabHeading = Roboto_Slab({ subsets: ['latin'], variable: '--font-heading' });
 
-const roboto = Roboto({subsets:['latin'],variable:'--font-sans'});
+const roboto = Roboto({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "PaddlePit",
