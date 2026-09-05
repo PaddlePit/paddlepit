@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Hero from "../components/home/hero.tsx";
 
 export default function Home() {
   return (
-    <div className="flex-col h-screen content-center">   
-      <h1 className="text-center">Hello PaddlePit</h1>
+    <div className="flex flex-col h-screen">   
+      <Hero/>
     </div>
   );
 }
