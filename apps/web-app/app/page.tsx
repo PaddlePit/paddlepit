@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Hero from "../components/home/hero.tsx";
+import Hero from "@/components/home/hero";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <div className="flex flex-col h-screen">   
-      <Hero/>
+    <div className="flex flex-col h-screen">
+      <Navbar />
+      <Hero />
     </div>
   );
 }
