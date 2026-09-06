@@ -1,6 +1,6 @@
 from sqlmodel import Field, SQLModel, Relationship  # type: ignore
 import uuid
-from datetime import datetime
+from datetime import date, time
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -13,8 +13,9 @@ class BookingItem(SQLModel, table=True):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4, primary_key=True)
     booking_id: uuid.UUID = Field(foreign_key="booking_detail.id")
     court_id: uuid.UUID = Field(foreign_key="court_detail.id")
-    start_time: datetime
-    end_time: datetime
+    start_time: time
+    end_time: time
+    date: date
     price: float
     version: int = Field(default=1)
 
