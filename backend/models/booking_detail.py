@@ -16,8 +16,7 @@ class BookingDetail(SQLModel, table=True):
     email: str
     courts_reserved: int
     total_price: float
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=datetime.timezone)
 
     booking_items: list["BookingItem"] = Relationship(back_populates="booking")
     transactions: list["TransactionDetail"] = Relationship(back_populates="booking")

@@ -23,7 +23,7 @@ class TransactionDetail(SQLModel, table=True):
 
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4, primary_key=True)
     booking_id: uuid.UUID = Field(foreign_key="booking_detail.id")
-    public_transaction_id: Optional[int] = Field(default=None, unique=True)
+    public_transaction_id: Optional[str] = Field(default=None, unique=True)
     payment_mode: PaymentMode
     amount: float
     status: TransactionStatus
