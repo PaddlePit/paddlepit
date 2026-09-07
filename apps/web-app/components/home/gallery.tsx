@@ -14,7 +14,7 @@ const images = [
 
 export default function Gallery() {
 	return (
-		<div className="relative flex flex-col min-h-screen items-center w-[950] gap-[32] overflow-hidden bg-cream px-[20]">
+		<div className="relative flex flex-col min-h-screen items-center max-w-[950] w-full gap-[32] overflow-hidden bg-cream px-[20]">
 			<div className="flex flex-row w-full justify-between items-center">
 				<div className="flex flex-col gap-2">
 					<h1 className="text-left font-semibold min-[680]:text-[5xl] text-4xl font-[Lora] text-emerald">Gallery</h1>
@@ -24,7 +24,7 @@ export default function Gallery() {
 			</div>
 			<div className="flex flex-row flex-wrap w-full justify-left gap-[20]">
 				{images.map((image) =>
-					<div key={image.alt} className="relative flex justify-center items-center w-[400] h-[230] bg-emerald hover:w-[450] rounded-3xl text-cream overflow-hidden transition-w duration-500">
+					<div key={image.alt} className="relative flex justify-center items-center min-[680]:w-[calc(50%-15px)] w-full h-[230] bg-emerald min-[950]:hover:w-[450] rounded-3xl text-cream overflow-hidden transition-w duration-500">
 						<Image
 							src={image.src}
 							alt={image.alt}
