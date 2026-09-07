@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero() {
 	return (
-		<div className="relative flex flex-col h-screen justify-center items-center gap-[32] overflow-hidden bg-emerald-950">
+		<div className="relative flex flex-col min-h-screen w-full justify-center items-center gap-[32] overflow-hidden bg-emerald-950">
 			<video
 				autoPlay
 				muted
