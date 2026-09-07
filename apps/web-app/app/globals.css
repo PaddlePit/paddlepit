@@ -39,6 +39,13 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-emerald: var(--emerald);
+  --color-emerald-foreground: var(--emerald-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-gold-muted: var(--gold-muted);
+  --color-cream: var(--cream);
+  --color-cream-foreground: var(--cream-foreground);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -83,8 +90,14 @@
   --sidebar-accent-foreground: oklch(0.274 0.022 176.3); /* Dark emerald */
   --sidebar-border: oklch(0.886 0.013 86.8);       /* Warm subtle neutral */
   --sidebar-ring: oklch(0.326 0.052 177.2);        /* Deep Emerald */
+  --emerald: oklch(0.383 0.062 177.6);             /* Secondary Emerald #134E43 */
+  --emerald-foreground: oklch(0.973 0.007 97.4);   /* Cream */
+  --gold: oklch(0.748 0.089 84.2);                 /* Muted Gold #C8A96A */
+  --gold-foreground: oklch(0.326 0.052 177.2);     /* Deep Emerald */
+  --gold-muted: oklch(0.656 0.085 84.7);           /* Muted gold for hover #A98D52 */
+  --cream: oklch(0.973 0.007 97.4);                /* Cream #F7F6F1 */
+  --cream-foreground: oklch(0.274 0.022 176.3);    /* Dark emerald */
 }
-
 .dark {
   /* PaddlePit Emerald & Cream — Dark Mode */
   --background: oklch(0.245 0.036 176.8);          /* Deep emerald dark #0A2620 */
@@ -119,6 +132,13 @@
   --sidebar-accent-foreground: oklch(0.961 0.004 157.2); /* Light cream */
   --sidebar-border: oklch(0.973 0.007 97.4 / 10%);  /* Cream with transparency */
   --sidebar-ring: oklch(0.685 0.108 165.7);         /* Lighter emerald */
+  --emerald: oklch(0.523 0.090 166.3);             /* Lightened secondary emerald #2A7A5E */
+  --emerald-foreground: oklch(0.973 0.007 97.4);   /* Cream */
+  --gold: oklch(0.748 0.089 84.2);                 /* Muted Gold #C8A96A */
+  --gold-foreground: oklch(0.326 0.052 177.2);     /* Deep Emerald */
+  --gold-muted: oklch(0.656 0.085 84.7);           /* Muted gold for hover #A98D52 */
+  --cream: oklch(0.973 0.007 97.4);                /* Cream #F7F6F1 */
+  --cream-foreground: oklch(0.274 0.022 176.3);    /* Dark emerald */
 }
 
 @layer base {
