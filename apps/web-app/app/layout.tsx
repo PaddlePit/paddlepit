@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Roboto, Roboto_Slab } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const robotoSlabHeading = Roboto_Slab({ subsets: ['latin'], variable: '--font-heading' });
+const loraHeading = Lora({ subsets: ['latin'], variable: '--font-heading' });
 
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-sans' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "PaddlePit",
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", "font-sans", roboto.variable, robotoSlabHeading.variable)}
+      className={cn("h-full", "antialiased", "font-sans", inter.variable, loraHeading.variable)}
     >
       <body className="min-h-full flex flex-col justify-center">{children}</body>
     </html>
