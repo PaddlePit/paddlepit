@@ -49,72 +49,76 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.841 0.238 128.85);
-  --primary-foreground: oklch(0.405 0.101 131.063);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.897 0.196 126.665);
-  --chart-2: oklch(0.768 0.233 130.85);
-  --chart-3: oklch(0.648 0.2 131.684);
-  --chart-4: oklch(0.532 0.157 131.589);
-  --chart-5: oklch(0.453 0.124 130.933);
+  /* PaddlePit Emerald & Cream — Light Mode */
+  --background: oklch(0.973 0.007 97.4);          /* Cream #F7F6F1 */
+  --foreground: oklch(0.274 0.022 176.3);          /* Dark emerald #1C2B27 */
+  --card: oklch(0.973 0.007 97.4);                 /* Cream */
+  --card-foreground: oklch(0.274 0.022 176.3);     /* Dark emerald */
+  --popover: oklch(0.973 0.007 97.4);              /* Cream */
+  --popover-foreground: oklch(0.274 0.022 176.3);  /* Dark emerald */
+  --primary: oklch(0.326 0.052 177.2);             /* Deep Emerald #0F3D34 */
+  --primary-foreground: oklch(0.973 0.007 97.4);   /* Cream on primary */
+  --secondary: oklch(0.946 0.014 155.6);           /* Light Emerald #E6F0E9 */
+  --secondary-foreground: oklch(0.274 0.022 176.3);/* Dark emerald */
+  --muted: oklch(0.946 0.014 155.6);               /* Light Emerald */
+  --muted-foreground: oklch(0.565 0.022 162.4);    /* Soft gray-green */
+  --accent: oklch(0.946 0.014 155.6);              /* Light Emerald */
+  --accent-foreground: oklch(0.326 0.052 177.2);   /* Deep Emerald */
+  --destructive: oklch(0.559 0.170 24.5);           /* Accessible red */
+  --destructive-foreground: oklch(1.0 0 0);         /* White */
+  --border: oklch(0.886 0.013 86.8);               /* Warm subtle neutral */
+  --input: oklch(0.886 0.013 86.8);                /* Warm subtle neutral */
+  --ring: oklch(0.326 0.052 177.2);                /* Deep Emerald focus */
+  --chart-1: oklch(0.748 0.089 84.2);              /* Muted Gold */
+  --chart-2: oklch(0.326 0.052 177.2);             /* Deep Emerald */
+  --chart-3: oklch(0.523 0.090 166.3);             /* Medium Emerald */
+  --chart-4: oklch(0.946 0.014 155.6);             /* Light Emerald */
+  --chart-5: oklch(0.383 0.062 177.6);             /* Secondary Emerald */
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.648 0.2 131.684);
-  --sidebar-primary-foreground: oklch(0.986 0.031 120.757);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.973 0.007 97.4);              /* Cream */
+  --sidebar-foreground: oklch(0.274 0.022 176.3);  /* Dark emerald */
+  --sidebar-primary: oklch(0.326 0.052 177.2);     /* Deep Emerald */
+  --sidebar-primary-foreground: oklch(0.973 0.007 97.4); /* Cream */
+  --sidebar-accent: oklch(0.946 0.014 155.6);      /* Light Emerald */
+  --sidebar-accent-foreground: oklch(0.274 0.022 176.3); /* Dark emerald */
+  --sidebar-border: oklch(0.886 0.013 86.8);       /* Warm subtle neutral */
+  --sidebar-ring: oklch(0.326 0.052 177.2);        /* Deep Emerald */
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.768 0.233 130.85);
-  --primary-foreground: oklch(0.405 0.101 131.063);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.897 0.196 126.665);
-  --chart-2: oklch(0.768 0.233 130.85);
-  --chart-3: oklch(0.648 0.2 131.684);
-  --chart-4: oklch(0.532 0.157 131.589);
-  --chart-5: oklch(0.453 0.124 130.933);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.768 0.233 130.85);
-  --sidebar-primary-foreground: oklch(0.274 0.072 132.109);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* PaddlePit Emerald & Cream — Dark Mode */
+  --background: oklch(0.245 0.036 176.8);          /* Deep emerald dark #0A2620 */
+  --foreground: oklch(0.961 0.004 157.2);           /* Light cream #F0F3F1 */
+  --card: oklch(0.270 0.035 177.1);                 /* Elevated emerald #112C26 */
+  --card-foreground: oklch(0.961 0.004 157.2);      /* Light cream */
+  --popover: oklch(0.261 0.036 177.2);              /* Between bg and card */
+  --popover-foreground: oklch(0.961 0.004 157.2);   /* Light cream */
+  --primary: oklch(0.523 0.090 166.3);              /* Lighter emerald #2A7A5E */
+  --primary-foreground: oklch(0.973 0.007 97.4);    /* Cream on dark primary */
+  --secondary: oklch(0.383 0.062 177.6);            /* Secondary Emerald #134E43 */
+  --secondary-foreground: oklch(0.961 0.004 157.2); /* Light cream */
+  --muted: oklch(0.329 0.047 175.7);                /* Muted dark emerald */
+  --muted-foreground: oklch(0.727 0.025 161.5);     /* Soft light gray-green */
+  --accent: oklch(0.373 0.055 175.5);               /* Dark accent emerald */
+  --accent-foreground: oklch(0.961 0.004 157.2);    /* Light cream */
+  --destructive: oklch(0.559 0.170 24.5);            /* Accessible red */
+  --destructive-foreground: oklch(1.0 0 0);          /* White */
+  --border: oklch(0.973 0.007 97.4 / 10%);          /* Cream with transparency */
+  --input: oklch(0.973 0.007 97.4 / 15%);           /* Cream with transparency */
+  --ring: oklch(0.685 0.108 165.7);                 /* Lighter emerald ring */
+  --chart-1: oklch(0.748 0.089 84.2);               /* Muted Gold */
+  --chart-2: oklch(0.383 0.062 177.6);              /* Secondary Emerald */
+  --chart-3: oklch(0.523 0.090 166.3);              /* Medium Emerald */
+  --chart-4: oklch(0.326 0.052 177.2);              /* Deep Emerald */
+  --chart-5: oklch(0.946 0.014 155.6);              /* Light Emerald */
+  --sidebar: oklch(0.273 0.043 172.5);              /* Dark emerald sidebar */
+  --sidebar-foreground: oklch(0.961 0.004 157.2);   /* Light cream */
+  --sidebar-primary: oklch(0.685 0.108 165.7);      /* Lighter emerald */
+  --sidebar-primary-foreground: oklch(0.973 0.007 97.4); /* Cream */
+  --sidebar-accent: oklch(0.383 0.062 177.6);       /* Secondary Emerald */
+  --sidebar-accent-foreground: oklch(0.961 0.004 157.2); /* Light cream */
+  --sidebar-border: oklch(0.973 0.007 97.4 / 10%);  /* Cream with transparency */
+  --sidebar-ring: oklch(0.685 0.108 165.7);         /* Lighter emerald */
 }
 
 @layer base {
