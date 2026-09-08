@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col h-screen w-screen items-center gap-[100]">
+      <div className="flex flex-col min-h-screen w-screen items-center gap-[100]">
         <Hero />
         <Gallery />
       </div>

@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={cn("h-full", "antialiased", "font-sans", inter.variable, loraHeading.variable)}
     >
-      <body className="min-h-full flex flex-col justify-center">{children}</body>
+      <body className="min-h-full flex flex-col justify-center bg-cream">{children}</body>
     </html>
   );
 }
