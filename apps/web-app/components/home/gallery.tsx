@@ -1,5 +1,13 @@
+"use client"
+
+import { useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+} from "../ui/dialog";
 import img1 from "@/assets/gallery/1.jpg";
 import img2 from "@/assets/gallery/2.jpg";
 import img3 from "@/assets/gallery/3.jpg";
@@ -13,6 +21,8 @@ const images = [
 ];
 
 export default function Gallery() {
+	const [selected, setSelected] = useState<number | null>(null);
+
 	return (
 		<div className="relative flex flex-col min-h-screen items-center max-w-[950] w-full gap-[32] overflow-hidden bg-cream px-[20]">
 			<div className="flex flex-row w-full justify-between items-center">
@@ -23,8 +33,12 @@ export default function Gallery() {
 				<Button variant="outline">View All</Button>
 			</div>
 			<div className="flex flex-row flex-wrap w-full justify-left gap-[20]">
-				{images.map((image) =>
-					<div key={image.alt} className="relative flex justify-center items-center min-[680]:w-[calc(50%-15px)] w-full h-[230] bg-emerald min-[950]:hover:w-[450] rounded-3xl text-cream overflow-hidden transition-w duration-500">
+				{images.map((image, index) =>
+					<button
+						key={image.alt}
+						onClick={() => setSelected(index)}
+						className="group relative flex justify-center items-center min-[680]:w-[calc(50%-15px)] w-full h-[230] bg-emerald min-[950]:hover:w-[450] rounded-3xl text-cream overflow-hidden transition-w duration-500 cursor-pointer"
+					>
 						<Image
 							src={image.src}
 							alt={image.alt}
@@ -32,9 +46,27 @@ export default function Gallery() {
 							sizes="(max-width: 680px) 100vw, 400px"
 							className="object-cover"
 						/>
-					</div>
+					</button>
 				)}
 			</div>
+			<Dialog open={selected !== null} onOpenChange={(open) => { if (!open) setSelected(null); }}>
+				<DialogContent
+					aria-describedby={undefined}
+					className="grid sm:max-w-none bg-transparent p-0 shadow-none ring-0"
+					style={{ width: "fit-content" }}
+				>
+					{selected !== null && (
+						<Image
+							src={images[selected].src}
+							alt={images[selected].alt}
+							width={images[selected].src.width}
+							height={images[selected].src.height}
+							className="h-auto w-auto max-h-[75vh] max-w-[calc(100vw-2rem)] rounded-4xl bg-emerald-950 object-contain"
+						/>
+					)}
+					<DialogTitle className="sr-only">{selected !== null ? images[selected].alt : "Image preview"}</DialogTitle>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }
