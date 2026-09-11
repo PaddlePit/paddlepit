@@ -1,3 +1,0 @@
-allowBuilds:
-  pnpm: true
-  unrs-resolver: false

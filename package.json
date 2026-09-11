@@ -2,11 +2,11 @@
   "name": "paddlepit",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev:web\" \"npm run dev:admin\"",
-    "dev:web": "npm run dev --workspace=web-app",
-    "dev:admin": "npm run dev --workspace=admin-app",
-    "build:web": "npm run build --workspace=web-app",
-    "build:admin": "npm run build --workspace=admin-app"
+    "dev": "concurrently \"pnpm run dev:web\" \"pnpm run dev:admin\"",
+    "dev:web": "pnpm --filter ./apps/web-app dev",
+    "dev:admin": "pnpm --filter ./apps/admin-app run dev",
+    "build:web": "pnpm --filter ./apps/web-app run build",
+    "build:admin": "pnpm --filter ./apps/admin-app run build"
   },
   "workspaces": [
     "apps/web-app",
