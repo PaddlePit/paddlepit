@@ -67,7 +67,7 @@ export default function VisitUs() {
 						>
 							Get Directions
 							<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-								<path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.3" strokeLinecap="round" strokeLinejoin="round"></path>
+								<path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"></path>
 							</svg>
 						</a>
 					</div>
