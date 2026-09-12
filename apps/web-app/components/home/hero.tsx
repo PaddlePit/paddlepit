@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default function Hero() {
 	return (
@@ -10,7 +11,7 @@ export default function Hero() {
 				playsInline
 				preload="auto"
 				className="absolute inset-0 h-full w-full object-cover"
-				src="/hero-bg.mp4"
+				src={`${basePath}/hero-bg.mp4`}
 			/>
 			<div className="absolute inset-0 bg-emerald-950/50"></div>
 			<div className="relative z-10 flex flex-col items-center gap-[32] px-[20]">
