@@ -92,7 +92,7 @@ export default function Navbar() {
 								</DropdownMenuItem>
 							))}
 							<DropdownMenuItem asChild>
-								<ContactUsModal />
+								<ContactUsModal className="group/dropdown-menu-item relative flex w-full cursor-default items-center gap-2.5 rounded-2xl px-3 py-2 text-sm font-medium text-popover-foreground outline-hidden select-none focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground" />
 							</DropdownMenuItem>
 							<DropdownMenuItem asChild>
 								<Button className="w-full cream rounded-2xl">Book Now</Button>

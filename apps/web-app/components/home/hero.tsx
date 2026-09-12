@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export default function Hero() {
 	return (
 		<section id="hero" className="relative flex flex-col min-h-screen w-full justify-center items-center gap-[32] overflow-hidden pt-[44]">

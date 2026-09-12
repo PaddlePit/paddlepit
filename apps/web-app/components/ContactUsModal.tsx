@@ -8,6 +8,7 @@ import {
 	ClockIcon,
 } from "@hugeicons/core-free-icons";
 import { Button } from "./ui/button";
+import { cn } from "cn";
 import {
 	Dialog,
 	DialogContent,
@@ -43,20 +44,23 @@ const hours = [
 	{ day: "Sunday", time: "7:00 AM – 9:00 PM" },
 ];
 
-export function ContactUsModal() {
+export function ContactUsModal({ className }: { className?: string }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
 				<button
 					type="button"
-					className="text-sm text-emerald/60 hover:text-emerald duration-200 cursor-pointer"
+					className={cn(
+						"text-sm text-emerald/60 hover:text-emerald duration-200 cursor-pointer",
+						className
+					)}
 				>
 					Contact Us
 				</button>
 			</DialogTrigger>
 			<DialogContent
 				showCloseButton
-				className="max-w-sm rounded-4xl bg-emerald-night border border-cream/10 p-0 shadow-2xl sm:max-w-sm"
+				className="w-[min(384px,calc(100vw-2rem))] rounded-4xl bg-emerald-night border border-cream/10 p-0 shadow-2xl"
 			>
 				<DialogHeader className="items-center pt-9 pb-5 px-6 text-center bg-gradient-to-b from-white/5 to-transparent rounded-t-4xl">
 					<div className="relative mb-3">
