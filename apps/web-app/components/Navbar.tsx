@@ -6,6 +6,7 @@ import { cn } from "cn";
 import { Button } from "./ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Menu01Icon } from "@hugeicons/core-free-icons";
+import { ContactUsModal } from "./ContactUsModal";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,7 +18,6 @@ const links = [
 	{ href: "#hero", label: "Home" },
 	{ href: "#gallery", label: "Gallery" },
 	{ href: "#visit-us", label: "Visit Us" },
-	{ href: "#footer", label: "Contact Us" },
 ];
 
 export default function Navbar() {
@@ -76,6 +76,7 @@ export default function Navbar() {
 								{link.label}
 							</a>
 						))}
+						<ContactUsModal />
 						<Button className="text-cream rounded-lg">Book Now</Button>
 					</div>
 					<DropdownMenu>
@@ -90,6 +91,9 @@ export default function Navbar() {
 									<Link href={link.href}>{link.label}</Link>
 								</DropdownMenuItem>
 							))}
+							<DropdownMenuItem asChild>
+								<ContactUsModal />
+							</DropdownMenuItem>
 							<DropdownMenuItem asChild>
 								<Button className="w-full cream rounded-2xl">Book Now</Button>
 							</DropdownMenuItem>
