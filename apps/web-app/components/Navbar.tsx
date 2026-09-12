@@ -14,10 +14,10 @@ import {
 } from "./ui/dropdown-menu";
 
 const links = [
-	{ href: "", label: "Home" },
-	{ href: "", label: "Gallery" },
-	{ href: "", label: "Visit Us" },
-	{ href: "", label: "Contact Us" },
+	{ href: "#hero", label: "Home" },
+	{ href: "#gallery", label: "Gallery" },
+	{ href: "#visit-us", label: "Visit Us" },
+	{ href: "#footer", label: "Contact Us" },
 ];
 
 export default function Navbar() {
@@ -64,7 +64,7 @@ export default function Navbar() {
 				<div className="flex flex-row gap-[20] justify-center items-center">
 					<div className="hidden min-[680px]:flex flex-row gap-[20] justify-center items-center">
 						{links.map((link) => (
-							<Link
+							<a
 								key={link.label}
 								href={link.href}
 								className={
@@ -74,7 +74,7 @@ export default function Navbar() {
 								}
 							>
 								{link.label}
-							</Link>
+							</a>
 						))}
 						<Button className="text-cream rounded-lg">Book Now</Button>
 					</div>

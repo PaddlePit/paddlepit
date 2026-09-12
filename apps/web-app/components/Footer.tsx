@@ -1,6 +1,6 @@
 export default function Footer() {
 	return (
-		<footer className="bg-emerald-night py-12 w-full">
+		<footer id="footer" className="bg-emerald-night py-12 w-full">
 			<div className="max-w-6xl mx-auto px-5">
 				<div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
 					<div>
