@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero() {
 	return (
-		<div className="relative flex flex-col min-h-screen w-full justify-center items-center gap-[32] overflow-hidden pt-[44]">
+		<section id="hero" className="relative flex flex-col min-h-screen w-full justify-center items-center gap-[32] overflow-hidden pt-[44]">
 			<video
 				autoPlay
 				muted
@@ -27,6 +27,6 @@ export default function Hero() {
 					<Button variant="cream" size="xl" className="min-[680]:text-lg text-md min-[680]:w-fit w-full">Check Availability</Button>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }
