@@ -1,11 +1,15 @@
-name: deploy
+name: Deploy Next.js App to Pages
+
 run-name: ${{ github.actor }} is deploying
 
 on:
   push:
     branches:
       - main
-      - chore/setup-ci-cd
+  
+   # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
   deploy-web-app:
     runs-on: ubuntu-latest
