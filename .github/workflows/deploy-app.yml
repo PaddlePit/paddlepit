@@ -36,7 +36,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --allow-scripts=unrs-resolver
+        run: pnpm install --frozen-lockfile --ignore-scripts=false
 
       - name: Build web-app
         working-directory: ./apps/web-app
