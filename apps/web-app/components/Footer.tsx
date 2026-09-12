@@ -7,9 +7,9 @@ export default function Footer() {
 						<div className="flex items-center gap-2.5">
 							<svg width="36" height="36" viewBox="0 0 36 36" fill="none">
 								<rect width="36" height="36" rx="8" fill="#0F3D34"></rect>
-								<circle cx="18" cy="18" r="10" stroke="#C8A96A" stroke-width="1.5" fill="none"></circle>
-								<line x1="18" y1="8" x2="18" y2="28" stroke="#C8A96A" stroke-width="1.5"></line>
-								<line x1="8" y1="18" x2="28" y2="18" stroke="#C8A96A" stroke-width="1.5"></line>
+								<circle cx="18" cy="18" r="10" stroke="#C8A96A" strokeWidth="1.5" fill="none"></circle>
+								<line x1="18" y1="8" x2="18" y2="28" stroke="#C8A96A" strokeWidth="1.5"></line>
+								<line x1="8" y1="18" x2="28" y2="18" stroke="#C8A96A" strokeWidth="1.5"></line>
 								<circle cx="18" cy="18" r="3" fill="#C8A96A"></circle>
 							</svg>
 							<span className="font-serif font-semibold tracking-tight text-xl text-cream">PaddlePit</span>
