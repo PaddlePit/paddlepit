@@ -230,7 +230,7 @@ Receives payment status updates from PayMongo. Automatically updates transaction
 
 ---
 
-## GET /webhook/status/{booking_id}
+## GET /payment/status/{booking_id}
 Check payment status for a specific booking.
 
 **Path Parameters:**

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from uuid import UUID
 from datetime import datetime
 from schema.booking import BookingResponse, AllBookingsResponse
-from .utils import (
+from ..utils import (
     validate_transaction_id,
     format_booking,
     sanitize_string,
