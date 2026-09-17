@@ -4,10 +4,8 @@ from datetime import datetime
 from schema.booking import BookingResponse, AllBookingsResponse
 from .utils import (
     validate_transaction_id,
-    validate_booking_data,
     format_booking,
     sanitize_string,
-    check_input_for_special_chars,
 )
 
 router = APIRouter()

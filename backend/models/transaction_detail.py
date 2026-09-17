@@ -10,7 +10,9 @@ if TYPE_CHECKING:
     from .discount_detail import DiscountDetail
 
 class TransactionStatus(str, Enum):
+    pending = "pending"
     paid = "paid"
+    failed = "failed"
     refund = "refund"
 
 class PaymentMode(str, Enum):
@@ -24,6 +26,7 @@ class TransactionDetail(SQLModel, table=True):
     id: uuid.UUID | None = Field(default_factory=uuid.uuid4, primary_key=True)
     booking_id: uuid.UUID = Field(foreign_key="booking_detail.id")
     public_transaction_id: Optional[str] = Field(default=None, unique=True)
+    paymongo_transaction_id: Optional[str] = Field(default=None, unique=True)
     payment_mode: PaymentMode
     amount: float
     status: TransactionStatus

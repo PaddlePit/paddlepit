@@ -8,7 +8,6 @@ if TYPE_CHECKING:
 
 class CourtStatus(str, Enum):
     available = "available"
-    booked = "booked"
     unavailable = "unavailable"
 
 class CourtDetail(SQLModel, table=True):

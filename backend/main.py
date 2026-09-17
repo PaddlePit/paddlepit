@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 
 from api.get_booking import router as booking_router
+from api.check_availability import router as availability_router
+from api.create_booking import router as create_booking_router
+from api.promo import router as promo_router
+from api.webhook import router as webhook_router
 
 app = FastAPI(
     title="PaddlePit API",
@@ -18,4 +22,8 @@ def health_check():
     return {"status": "ok"}
 
 
-app.include_router(booking_router) 
+app.include_router(booking_router)
+app.include_router(availability_router)
+app.include_router(create_booking_router)
+app.include_router(promo_router)
+app.include_router(webhook_router) 
