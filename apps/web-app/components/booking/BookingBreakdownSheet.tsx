@@ -46,7 +46,7 @@ export function BookingBreakdownSheet({
           </SheetDescription>
         </SheetHeader>
 
-        <ScrollArea className="max-h-[46vh] px-5 py-4">
+        <ScrollArea className="max-h-[46vh] px-5 py-4 overflow-scroll">
           {isEmpty ? (
             <p className="py-8 text-center text-sm text-emerald-deep/50">
               No slots selected yet.
