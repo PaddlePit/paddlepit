@@ -90,18 +90,37 @@ Server-returned prices (after promos/rate changes) REPLACE the client estimate i
 
 ### `DELETE /holds/{holdId}` → 204
 
-Releases a hold when the user dismisses or succeeds early (best-effort; holds also expire server-side via `expiresAt`).
+Releases a hold when the user dismisses or succeeds early (best-effort; holds also expire server-side via `expiresAt`). The checkout page guards "Back to booking" with a warning dialog that makes the impact explicit: releasing stops the hold countdown and re-opens the slots to other players.
 
-### `POST /checkout` `{ holdId }` + `Idempotency-Key` header → `CheckoutResponse`
+### `POST /vouchers/validate` `{ code, amountMinor, currency }` → `Voucher` | 404/422 → null
+
+Validates a promo/voucher code against the booking total. `amountMinor` is the pre-discount total so percentage codes resolve server-side (authoritative pricing).
 
 ```json
-{ "bookingId": "bk_9c1…", "status": "confirmed", "paymentUrl": "https://checkout.paddlepit.ph/..." }
+{ "code": "PP10", "label": "10% off", "discountMinor": 3500 }
+```
+
+- `404` or `422` → the code is invalid; the client clears the field and shows "That voucher code isn't valid."
+- The client reduces the displayed total by `discountMinor` (floored at 0) and re-sends `voucherCode` on checkout so the server applies the same discount authoritatively.
+
+### `POST /checkout` `{ holdId, customer, voucherCode?, successUrl? }` + `Idempotency-Key` header → `CheckoutResponse`
+
+```json
+{
+  "bookingId": "bk_9c1…",
+  "status": "pending_payment",
+  "paymentUrl": "https://checkout.paymongo.com/pp_…",
+  "qrCodeUrl": "https://api.paymongo.com/qr/pp_….png",
+  "successUrl": "https://paddlepit.ph/checkout/success?bookingId=bk_9c1…"
+}
 ```
 
 `status`:
-- `pending_payment` with `paymentUrl` → client redirects to the payment page (PayMongo).
+- `pending_payment` with `paymentUrl` (+ `qrCodeUrl`) → the client opens a **scan-to-pay modal**: the QR image, a tappable link back to `paymentUrl`, and an info note. There is **no "payment complete" button** — confirmation is signaled only by the PayMongo callback: the backend sets the link's `success_url` to `<successUrl>?bookingId=…` (built from the client-supplied base URL), and after a successful payment PayMongo redirects the customer there. The client's `/checkout/success` static page renders the confirmation from the redirected `bookingId`. The webhook/frontend never asserts payment itself.
 - `pending_payment` with `clientSecret` → client hands off to the PayMongo SDK (future work; currently a placeholder toast).
-- `confirmed` → success dialog with `bookingId`.
+- `confirmed` → success screen with `bookingId`.
+
+The modal reuses the same `Idempotency-Key` on retry, so re-opening it can't re-charge.
 
 **410 Gone** → `HOLD_EXPIRED`: selection is preserved, the user is told to create a new hold.
 

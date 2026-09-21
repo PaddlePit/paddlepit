@@ -6,6 +6,8 @@ import type {
   CreateHoldResponse,
   ISODate,
   VenueConfig,
+  Voucher,
+  VoucherContext,
 } from "@/types/booking";
 
 /**
@@ -22,6 +24,8 @@ export interface BookingService {
   createHold(req: CreateHoldRequest): Promise<CreateHoldResponse>;
   /** DELETE /holds/:id — abandons a hold. */
   releaseHold(holdId: string): Promise<void>;
+  /** POST /vouchers/validate — discounts; null means the code is invalid. */
+  validateVoucher(code: string, ctx: VoucherContext): Promise<Voucher | null>;
   /** POST /checkout — confirms the held booking (idempotent via idempotencyKey). */
   checkout(req: CheckoutRequest, idempotencyKey: string): Promise<CheckoutResponse>;
 }

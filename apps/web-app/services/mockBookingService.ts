@@ -6,6 +6,8 @@ import type {
   CreateHoldResponse,
   ISODate,
   VenueConfig,
+  Voucher,
+  VoucherContext,
 } from "@/types/booking";
 import { ApiError } from "@/types/booking";
 import type { BookingService } from "./bookingService";
@@ -136,12 +138,49 @@ export class MockBookingService implements BookingService {
     return undefined;
   }
 
+  async validateVoucher(code: string, ctx: VoucherContext): Promise<Voucher | null> {
+    await this.simulateLatency();
+    const normalized = (code ?? "").trim().toUpperCase();
+    if (normalized === "PP10") {
+      return {
+        code: normalized,
+        label: "10% off",
+        discountMinor: Math.min(ctx.amountMinor, Math.round(ctx.amountMinor * 0.1)),
+      };
+    }
+    if (normalized === "WELCOME") {
+      return {
+        code: normalized,
+        label: "Flat ₱100 off",
+        discountMinor: Math.min(ctx.amountMinor, 100 * 100),
+      };
+    }
+    return null;
+  }
+
   async checkout(req: CheckoutRequest): Promise<CheckoutResponse> {
     await this.simulateLatency();
     if (!req.holdId) {
       throw new ApiError("VALIDATION", 400, "Missing holdId.");
     }
-    return { bookingId: `bk_${randId()}`, status: "confirmed" };
+    // Real backend: PayMongo creates a payment link whose success_url points at
+    // <successUrl>?bookingId=… and returns the link + its QR image. There is no
+    // PayMongo in the mock, so the "payment link" IS the success URL itself —
+    // following the QR/link lands straight on the confirmation page, exactly
+    // like PayMongo's redirect-callback would.
+    const bookingId = `bk_${randId()}`;
+    const base =
+      req.successUrl && req.successUrl.trim() !== ""
+        ? req.successUrl
+        : `${typeof window !== "undefined" ? window.location.origin : "http://localhost:3000"}/checkout/success`;
+    const successUrl = `${base}${base.includes("?") ? "&" : "?"}bookingId=${bookingId}`;
+    return {
+      bookingId,
+      status: "pending_payment",
+      paymentUrl: successUrl,
+      qrCodeUrl: qrSvgDataUrl(successUrl),
+      successUrl,
+    };
   }
 
   private validate(slots: CreateHoldRequest["slots"]) {
@@ -175,4 +214,43 @@ function randId() {
   } catch {
     return `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
   }
+}
+
+/**
+ * Fictional QR stand-in: a deterministic QR-look SVG data URL derived from the
+ * payment URL, so the scan-to-pay modal renders without a real PayMongo link.
+ * The production backend returns the actual QR image in qrCodeUrl.
+ */
+function qrSvgDataUrl(value: string): string {
+  const size = 21;
+  let seed = 2166136261;
+  for (let i = 0; i < value.length; i++) {
+    seed ^= value.charCodeAt(i);
+    seed = Math.imul(seed, 16777619);
+  }
+  const cells: boolean[] = [];
+  for (let i = 0; i < size * size; i++) {
+    seed = Math.imul(seed ^ (seed >>> 13), 0x5bd1e995);
+    seed = (seed ^ (seed >>> 15)) >>> 0;
+    cells.push((seed & 1) === 1);
+  }
+  const inFinder = (r: number, c: number) =>
+    (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+  const finderCell = (r: number, c: number) => {
+    const rr = r < 7 ? r : r - (size - 7);
+    const cc = c < 7 ? c : c - (size - 7);
+    return rr === 0 || rr === 6 || cc === 0 || cc === 6 || (rr >= 2 && rr <= 4 && cc >= 2 && cc <= 4);
+  };
+  let modules = "";
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      const on = inFinder(r, c) ? finderCell(r, c) : cells[r * size + c];
+      if (on) modules += `<rect x="${c}" y="${r}" width="1" height="1"/>`;
+    }
+  }
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges">` +
+    `<rect width="100%" height="100%" fill="#ffffff"/>` +
+    `<g fill="#0e4a3f">${modules}</g></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }

@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowLeft01Icon, BadgeCheckIcon, Clock01Icon } from "@hugeicons/core-free-icons";
+import { ArrowLeft01Icon, Clock01Icon } from "@hugeicons/core-free-icons";
 import { useVenueConfig } from "@/hooks/useVenueConfig";
 import { useCreateHold } from "@/hooks/useCreateHold";
 import { useCheckout } from "@/hooks/useCheckout";
@@ -22,12 +22,25 @@ import {
 } from "@/services/mappers";
 import { formatMoney } from "@/lib/money";
 import { BreakdownLines } from "./BreakdownLines";
+import { CheckoutCustomerForm, type CustomerErrors } from "./CheckoutCustomerForm";
+import { CheckoutVoucher } from "./CheckoutVoucher";
+import { BookingConfirmed } from "./BookingConfirmed";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { ApiError } from "@/types/booking";
 import type {
   CheckoutResponse,
   CreateHoldResponse,
+  CustomerInfo,
   ISODateTime,
   SlotRef,
+  Voucher,
 } from "@/types/booking";
 
 interface ServerBreakdown {
@@ -82,6 +95,11 @@ export function CheckoutFlow() {
   const [held, setHeld] = useState<CreateHoldResponse | null>(null);
   const [holdError, setHoldError] = useState<string | null>(null);
   const [success, setSuccess] = useState<CheckoutResponse | null>(null);
+  const [customer, setCustomer] = useState<CustomerInfo>({ name: "", email: "", phone: "" });
+  const [customerErrors, setCustomerErrors] = useState<CustomerErrors>({});
+  const [voucher, setVoucher] = useState<Voucher | null>(null);
+  const [pendingPayment, setPendingPayment] = useState<CheckoutResponse | null>(null);
+  const [confirmLeaveOpen, setConfirmLeaveOpen] = useState(false);
   const [nowMs, setNowMs] = useState(() => Date.now());
 
   const requestStartedRef = useRef(false);
@@ -135,6 +153,8 @@ export function CheckoutFlow() {
 
   const data = serverBreakdown?.breakdown ?? estimated;
   const totalMinor = serverBreakdown?.totalMinor ?? estimated.totalMinor;
+  const discountMinor = voucher?.discountMinor ?? 0;
+  const netTotalMinor = Math.max(0, totalMinor - discountMinor);
   const expiresRemaining = held ? remainingMs(held.expiresAt, nowMs) : null;
 
   const retryHold = () => {
@@ -143,11 +163,32 @@ export function CheckoutFlow() {
     setHeld(null);
   };
 
-  const goBack = () => {
+  const validateCustomer = (): boolean => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const next: CustomerErrors = {};
+    if (!customer.name.trim()) next.name = "Please enter your name.";
+    if (!emailPattern.test(customer.email.trim())) next.email = "Enter a valid email address.";
+    setCustomerErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleLeave = () => {
+    setConfirmLeaveOpen(false);
+    setPendingPayment(null);
     if (held && !success) {
-      void service.releaseHold(held.holdId).catch(() => {});
+      void service.releaseHold(held.holdId).catch(() => { });
     }
     router.back();
+  };
+
+  const goBack = () => {
+    // Leaving while a hold is live warns the user: the release stops the
+    // countdown and the slots go back on the market.
+    if (held && !success) {
+      setConfirmLeaveOpen(true);
+      return;
+    }
+    handleLeave();
   };
 
   const handleConfirmPayment = async () => {
@@ -157,15 +198,23 @@ export function CheckoutFlow() {
       setHeld(null);
       return;
     }
+    if (!validateCustomer()) return;
     const idempotencyKey = idempotencyKeyRef.current ?? newIdempotencyKey();
     idempotencyKeyRef.current = idempotencyKey;
     try {
       const result = await checkout.mutate({
-        request: { holdId: held.holdId },
+        request: {
+          holdId: held.holdId,
+          customer,
+          voucherCode: voucher?.code,
+          // PayMongo redirects here after a successful payment; the backend
+          // appends ?bookingId=… to this base URL.
+          successUrl: `${window.location.origin}/checkout/success`,
+        },
         idempotencyKey,
       });
       if (result.paymentUrl) {
-        window.location.assign(result.paymentUrl);
+        setPendingPayment(result); // scan-to-pay modal with QR + link
         return;
       }
       if (result.clientSecret) {
@@ -190,29 +239,9 @@ export function CheckoutFlow() {
 
   if (success) {
     return (
-      <div className="mx-auto max-w-2xl px-4 pt-28 pb-16">
+      <div className="pt-0">
         <Toaster />
-        <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-emerald-light text-emerald-deep">
-          <HugeiconsIcon icon={BadgeCheckIcon} strokeWidth={2} className="size-7" />
-        </div>
-        <h1 className="mt-4 text-center font-serif text-2xl font-semibold text-emerald-deep sm:text-3xl">
-          Booking confirmed
-        </h1>
-        <p className="mt-2 text-center text-sm text-emerald-deep/60">
-          Your court is reserved. A confirmation email is on its way.
-        </p>
-        <div className="mt-6 rounded-2xl border border-emerald-deep/10 bg-cream p-6 text-center shadow-sm">
-          <p className="text-[10px] tracking-wider text-emerald-deep/45 uppercase">
-            Booking reference
-          </p>
-          <p className="font-mono text-lg font-medium text-emerald-deep">{success.bookingId}</p>
-          <Button
-            onClick={() => router.push("/book")}
-            className="mt-5 w-full rounded-xl bg-emerald-deep text-cream hover:bg-emerald-mid"
-          >
-            Book another court
-          </Button>
-        </div>
+        <BookingConfirmed bookingId={success.bookingId} />
       </div>
     );
   }
@@ -311,15 +340,37 @@ export function CheckoutFlow() {
             <BreakdownLines data={data} venue={venue} />
           </section>
 
+          <CheckoutCustomerForm
+            value={customer}
+            errors={customerErrors}
+            onChange={setCustomer}
+          />
+
+          <CheckoutVoucher
+            amountMinor={totalMinor}
+            currency={venue.currency}
+            onChange={setVoucher}
+          />
+
           <section className="rounded-2xl border border-emerald-deep/10 bg-cream p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-xs tracking-wide text-emerald-deep/50 uppercase">
                 {serverBreakdown ? "Confirmed total" : "Estimated total"}
               </span>
               <span className="font-serif text-xl font-semibold text-emerald-deep">
-                {formatMoney(totalMinor, venue.currency)}
+                {formatMoney(netTotalMinor, venue.currency)}
               </span>
             </div>
+            {discountMinor > 0 && (
+              <div className="mt-2 flex items-center justify-between text-sm">
+                <span className="text-emerald-deep/60">
+                  {voucher?.code} · {voucher?.label}
+                </span>
+                <span className="font-medium text-emerald-deep/70">
+                  −{formatMoney(discountMinor, venue.currency)}
+                </span>
+              </div>
+            )}
             <Separator className="my-4" />
             <Button
               onClick={handleConfirmPayment}
@@ -336,7 +387,9 @@ export function CheckoutFlow() {
                   className="size-3.5 animate-spin rounded-full border-2 border-cream/40 border-t-cream"
                 />
               )}
-              {checkout.isLoading ? "Processing payment…" : "Confirm & Pay"}
+              {checkout.isLoading
+                ? "Processing payment…"
+                : `Confirm & Pay · ${formatMoney(netTotalMinor, venue.currency)}`}
             </Button>
             <p className="mt-3 text-center text-xs text-emerald-deep/40">
               Your slots are held while you complete payment.
@@ -344,6 +397,83 @@ export function CheckoutFlow() {
           </section>
         </div>
       )}
+
+      <Dialog
+        open={pendingPayment !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingPayment(null);
+        }}
+      >
+        <DialogContent className="gap-4 sm:max-w-sm p-5" showCloseButton>
+          <DialogHeader>
+            <DialogTitle>Scan to pay</DialogTitle>
+            <DialogDescription>
+              Pay securely with GCash, Maya, or a card. Your slots stay held
+              while you finish payment.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex flex-col items-center gap-3">
+            {pendingPayment?.qrCodeUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element -- QR arrives as an image from PayMongo
+              <img
+                src={pendingPayment.qrCodeUrl}
+                alt="PAYMONGO payment QR code"
+                className="size-44 rounded-xl border border-emerald-deep/10 bg-white p-2"
+              />
+            ) : (
+              <div className="flex size-44 items-center justify-center rounded-xl border border-dashed border-emerald-deep/20 text-sm text-emerald-deep/40">
+                QR unavailable
+              </div>
+            )}
+            <p className="text-center text-xs text-emerald-deep/55">
+              or pay using this secure link
+            </p>
+            {pendingPayment?.paymentUrl && (
+              <a
+                href={pendingPayment.paymentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="max-w-full break-all rounded-lg bg-emerald-pale px-3 py-1.5 text-center font-mono text-xs text-emerald-deep underline underline-offset-2"
+              >
+                {pendingPayment.paymentUrl}
+              </a>
+            )}
+          </div>
+
+          <p className="rounded-xl bg-cream px-3 py-2 text-center text-xs text-emerald-deep/55">
+            Complete payment to continue — you&apos;ll be redirected back
+            automatically to confirm your booking.
+          </p>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={confirmLeaveOpen} onOpenChange={setConfirmLeaveOpen}>
+        <DialogContent className="gap-4 sm:max-w-sm p-5" showCloseButton>
+          <DialogHeader>
+            <DialogTitle>Leave checkout?</DialogTitle>
+            <DialogDescription>
+              Your slot hold will be released and the countdown stops. Other
+              players could book those times before you come back.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:flex-col-reverse gap-2">
+            <Button
+              onClick={handleLeave}
+              variant="outline"
+              className="w-full rounded-xl text-clay-deep"
+            >
+              Yes, leave
+            </Button>
+            <Button
+              onClick={() => setConfirmLeaveOpen(false)}
+              className="w-full rounded-xl bg-emerald-deep text-cream hover:bg-emerald-mid"
+            >
+              Keep my hold
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

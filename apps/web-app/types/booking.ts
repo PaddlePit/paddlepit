@@ -51,14 +51,37 @@ export interface CreateHoldResponse {
   currency: string;
 }
 
+export interface CustomerInfo {
+  name: string;
+  email: string;
+  phone?: string;
+}
+
+export interface Voucher {
+  code: string;
+  label: string;
+  discountMinor: number; // amount off in minor units, already capped at the total
+}
+
+export interface VoucherContext {
+  amountMinor: number;
+  currency: string;
+}
+
 export interface CheckoutRequest {
   holdId: string;
+  customer: CustomerInfo;
+  voucherCode?: string;
+  /** Base URL PayMongo redirects to after payment; the backend appends the booking id. */
+  successUrl?: string;
 }
 
 export interface CheckoutResponse {
   bookingId: string;
   status: "pending_payment" | "confirmed";
-  paymentUrl?: string;
+  paymentUrl?: string; // PayMongo payment link
+  qrCodeUrl?: string; // PayMongo QR code image for the payment link
+  successUrl?: string; // resolved callback target (success_url) for the payment link
   clientSecret?: string;
 }
 

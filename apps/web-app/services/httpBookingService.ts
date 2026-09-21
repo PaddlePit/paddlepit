@@ -6,7 +6,10 @@ import type {
   CreateHoldResponse,
   ISODate,
   VenueConfig,
+  Voucher,
+  VoucherContext,
 } from "@/types/booking";
+import { ApiError } from "@/types/booking";
 import { createApiClient, type ApiClient, type AuthTokenProvider } from "./apiClient";
 import type { BookingService } from "./bookingService";
 
@@ -39,6 +42,19 @@ export class HttpBookingService implements BookingService {
 
   async releaseHold(holdId: string): Promise<void> {
     await this.client.delete<void>(`/holds/${encodeURIComponent(holdId)}`);
+  }
+
+  async validateVoucher(code: string, ctx: VoucherContext): Promise<Voucher | null> {
+    try {
+      return await this.client.post<Voucher>("/vouchers/validate", {
+        body: { code, ...ctx },
+      });
+    } catch (error) {
+      if (error instanceof ApiError && (error.status === 404 || error.status === 422)) {
+        return null; // code not found / not applicable — treat as invalid
+      }
+      throw error;
+    }
   }
 
   async checkout(req: CheckoutRequest, idempotencyKey: string): Promise<CheckoutResponse> {
