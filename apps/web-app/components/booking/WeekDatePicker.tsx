@@ -79,7 +79,7 @@ export function WeekDatePicker({
           >
             <HugeiconsIcon icon={ChevronLeftIcon} strokeWidth={2} />
           </Button>
-          <span className="min-w-[104px] text-center text-xs font-medium text-emerald-deep/70">
+          <span className="min-w-[96px] text-center text-xs font-medium text-emerald-deep/70 sm:min-w-[104px]">
             {formatWeekRangeLabel(visibleDays)}
           </span>
           <Button
@@ -95,7 +95,7 @@ export function WeekDatePicker({
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
         {visibleDays.map((date) => {
           const { label, day } = formatDayPill(date, timezone);
           const isSelected = date === selectedDate;
@@ -110,7 +110,7 @@ export function WeekDatePicker({
               aria-label={`${label} ${day}${count ? `, ${count} selected` : ""}`}
               onClick={() => !disabled && onSelectDate(date)}
               className={cn(
-                "relative flex flex-col items-center gap-0.5 rounded-xl border px-1 py-2 transition-all duration-150 outline-none",
+                "relative flex flex-col items-center gap-0.5 rounded-lg border px-1 py-1.5 transition-all duration-150 outline-none sm:rounded-xl sm:py-2",
                 "focus-visible:ring-2 focus-visible:ring-gold/60",
                 isSelected
                   ? "border-emerald-deep bg-emerald-deep text-cream shadow-sm"
@@ -118,8 +118,8 @@ export function WeekDatePicker({
                 disabled && "cursor-not-allowed border-transparent bg-transparent text-emerald-deep/20 hover:border-transparent"
               )}
             >
-              <span className="text-[10px] font-medium tracking-wide opacity-70">{label}</span>
-              <span className="text-sm font-semibold leading-none">{day}</span>
+              <span className="text-[9px] font-medium tracking-wide opacity-70 sm:text-[10px]">{label}</span>
+              <span className="text-[13px] font-semibold leading-none sm:text-sm">{day}</span>
               {count > 0 && (
                 <Badge
                   variant="gold"

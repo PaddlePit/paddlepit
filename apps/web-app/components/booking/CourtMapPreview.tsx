@@ -56,8 +56,8 @@ export function CourtMapPreview({
         <TooltipProvider delayDuration={120}>
           <svg
             viewBox={`0 0 ${width} ${height}`}
-            className="block h-auto max-h-[130px]"
-            style={{ minWidth: width, width: "100%" }}
+            className="mx-auto block h-auto max-h-[130px]"
+            style={{ width: "100%", maxWidth: width }}
             role="group"
             aria-label="Court map"
           >

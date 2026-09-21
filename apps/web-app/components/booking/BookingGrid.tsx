@@ -38,7 +38,7 @@ function GridHeader({
 }) {
   return (
     <div
-      className="sticky top-0 z-20 grid gap-1.5 bg-cream pb-2"
+      className="sticky top-0 z-20 grid gap-1 bg-cream pb-2 sm:gap-1.5"
       style={{ gridTemplateColumns: template }}
     >
       <div className="sticky left-0 z-10 flex items-end bg-cream pl-1 pb-1 text-[10px] font-semibold tracking-wider text-emerald-deep/40 uppercase">
@@ -58,7 +58,7 @@ function GridHeader({
 
 function SkeletonGrid({ venue }: { venue: VenueConfig }) {
   const rows = Math.min(8, Math.max(4, venue.closeHour - venue.openHour));
-  const template = `minmax(96px, 1fr) repeat(${venue.courts.length}, minmax(72px, 1fr))`;
+  const template = `minmax(var(--pp-time-col), 1fr) repeat(${venue.courts.length}, minmax(var(--pp-court-col), 1fr))`;
   return (
     <div aria-busy="true" aria-live="polite" className="grid gap-1.5" style={{ gridTemplateColumns: template }}>
       <Skeleton className="h-8" />
@@ -94,7 +94,7 @@ export function BookingGrid({
   onRetry,
   onJumpNextDay,
 }: BookingGridProps) {
-  const template = `minmax(96px, 1fr) repeat(${venue.courts.length}, minmax(72px, 1fr))`;
+  const template = `minmax(var(--pp-time-col), 1fr) repeat(${venue.courts.length}, minmax(var(--pp-court-col), 1fr))`;
 
   const visibleStarts = useMemo(
     () => (hidePast ? slotStarts.filter((s) => !isPastSlot(s, nowISO)) : slotStarts),
@@ -104,7 +104,7 @@ export function BookingGrid({
   const allPast = slotStarts.length > 0 && visibleStarts.length === 0;
 
   return (
-    <section className="rounded-2xl border border-emerald-deep/10 bg-cream p-3 shadow-sm sm:p-4">
+    <section className="[--pp-time-col:76px] [--pp-court-col:58px] sm:[--pp-time-col:96px] sm:[--pp-court-col:72px] rounded-2xl border border-emerald-deep/10 bg-cream p-2.5 shadow-sm sm:p-4">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h3 className="text-xs font-semibold tracking-wider text-emerald-deep/50 uppercase">
           Available Slots ·{" "}
@@ -153,9 +153,9 @@ export function BookingGrid({
           className="overflow-x-auto overscroll-x-contain"
           onMouseLeave={() => onHoverCourt(null)}
         >
-          <div className="min-w-[320px]">
+          <div className="min-w-[280px]">
             <GridHeader venue={venue} template={template} />
-            <div className="grid gap-1.5" style={{ gridTemplateColumns: template }}>
+            <div className="grid gap-1 sm:gap-1.5" style={{ gridTemplateColumns: template }}>
               {visibleStarts.map((start) => {
                 const past = isPastSlot(start, nowISO);
                 const timeLabel = formatTimeRange(start, venue.slotMinutes, venue.timezone);
@@ -163,7 +163,7 @@ export function BookingGrid({
                   <div key={start} className="contents">
                     <div
                       className={cn(
-                        "sticky left-0 z-10 flex h-12 items-center rounded-xl bg-cream pr-2 pl-1 text-xs font-medium",
+                        "sticky left-0 z-10 flex h-12 items-center rounded-xl bg-cream pr-2 pl-1 text-[10px] font-medium leading-tight sm:text-xs",
                         past ? "text-emerald-deep/25" : "text-emerald-deep/70"
                       )}
                     >
