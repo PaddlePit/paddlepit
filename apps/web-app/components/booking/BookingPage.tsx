@@ -119,8 +119,8 @@ export function BookingPage() {
     () =>
       activeDate && venue
         ? selection.slots.filter(
-            (s) => isoToBusinessDate(s.start, venue.timezone) === activeDate
-          )
+          (s) => isoToBusinessDate(s.start, venue.timezone) === activeDate
+        )
         : [],
     [selection.slots, activeDate, venue]
   );
@@ -159,17 +159,17 @@ export function BookingPage() {
   const rateRange =
     courts.length > 0
       ? (() => {
-          const rates = courts.map((c) => c.hourlyRateMinor);
-          const min = Math.min(...rates);
-          const max = Math.max(...rates);
-          return min === max
-            ? `${formatMoney(min, venue!.currency)}/hr`
-            : `${formatMoney(min, venue!.currency)} – ${formatMoney(max, venue!.currency)}/hr`;
-        })()
+        const rates = courts.map((c) => c.hourlyRateMinor);
+        const min = Math.min(...rates);
+        const max = Math.max(...rates);
+        return min === max
+          ? `${formatMoney(min, venue!.currency)}/hr`
+          : `${formatMoney(min, venue!.currency)} – ${formatMoney(max, venue!.currency)}/hr`;
+      })()
       : "";
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-28 pb-32">
+    <div className="mx-auto max-w-[950] w-full px-4 pt-28 pb-32">
       <Toaster />
 
       <header className="mb-6">
