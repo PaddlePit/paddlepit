@@ -21,14 +21,13 @@ import {
   type BreakdownData,
 } from "@/services/mappers";
 import { formatMoney } from "@/lib/money";
-import { formatLongDate, formatTimeRange } from "@/lib/time-slots";
+import { BreakdownLines } from "./BreakdownLines";
 import { ApiError } from "@/types/booking";
 import type {
   CheckoutResponse,
   CreateHoldResponse,
   ISODateTime,
   SlotRef,
-  VenueConfig,
 } from "@/types/booking";
 
 interface ServerBreakdown {
@@ -65,51 +64,6 @@ function formatCountdown(expiresAt: ISODateTime, nowMs: number): string {
   const minutes = Math.floor(remaining / 60_000);
   const seconds = Math.floor((remaining % 60_000) / 1000);
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-
-function CheckoutLines({
-  data,
-  venue,
-}: {
-  data: BreakdownData;
-  venue: VenueConfig;
-}) {
-  return (
-    <div className="space-y-4">
-      {data.days.map((day) => (
-        <div key={day.date} className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-semibold text-emerald-deep">
-              {formatLongDate(day.date, venue.timezone)}
-            </p>
-            <p className="text-xs font-medium text-emerald-deep/50">
-              {formatMoney(day.subtotalMinor, venue.currency)}
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            {day.courts.map((court) => (
-              <div key={court.courtId} className="space-y-1.5">
-                <p className="text-xs font-medium text-emerald-deep/60">{court.courtName}</p>
-                {court.lines.map((line) => (
-                  <div
-                    key={line.start}
-                    className="flex items-center justify-between gap-2 rounded-xl border border-emerald-deep/10 bg-emerald-pale px-3 py-2"
-                  >
-                    <p className="text-sm text-emerald-deep">
-                      {formatTimeRange(line.start, line.minutes, venue.timezone)}
-                    </p>
-                    <p className="text-sm font-semibold text-emerald-deep">
-                      {formatMoney(line.priceMinor, venue.currency)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 export function CheckoutFlow() {
@@ -354,7 +308,7 @@ export function CheckoutFlow() {
             <h2 className="mb-4 text-xs font-semibold tracking-wider text-emerald-deep/50 uppercase">
               Your booking
             </h2>
-            <CheckoutLines data={data} venue={venue} />
+            <BreakdownLines data={data} venue={venue} />
           </section>
 
           <section className="rounded-2xl border border-emerald-deep/10 bg-cream p-5 shadow-sm">

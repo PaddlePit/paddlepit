@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import type { Court, SlotRef, VenueConfig } from "@/types/booking";
+import type { SlotRef, VenueConfig } from "@/types/booking";
 import {
   countSelectionByCourt,
   countSelectionByDate,
@@ -10,7 +10,6 @@ import {
 import {
   distinctCourtCount,
   distinctDayCount,
-  estimatedTotalMinor,
   totalSelectedMinutes,
 } from "@/lib/pricing";
 
@@ -21,16 +20,12 @@ import {
  */
 export interface BookingSelection {
   slots: SlotRef[];
-  isSelected: (slot: SlotRef) => boolean;
-  add: (slot: SlotRef) => void;
-  remove: (slot: SlotRef) => void;
   removeMany: (slots: SlotRef[]) => void;
   toggle: (slot: SlotRef) => void;
   clear: () => void;
   countByDate: Record<string, number>;
   countByCourt: Record<string, number>;
   summary: { minutes: number; courts: number; days: number };
-  estimatedMinor: number;
   isEmpty: boolean;
 }
 
@@ -38,25 +33,6 @@ export function useBookingSelection(
   venue: VenueConfig | undefined
 ): BookingSelection {
   const [slots, setSlots] = useState<SlotRef[]>([]);
-
-  const isSelected = useCallback(
-    (slot: SlotRef) => slots.some((s) => s.courtId === slot.courtId && s.start === slot.start),
-    [slots]
-  );
-
-  const add = useCallback((slot: SlotRef) => {
-    setSlots((prev) =>
-      prev.some((s) => s.courtId === slot.courtId && s.start === slot.start)
-        ? prev
-        : [...prev, slot]
-    );
-  }, []);
-
-  const remove = useCallback((slot: SlotRef) => {
-    setSlots((prev) =>
-      prev.filter((s) => s.courtId !== slot.courtId || s.start !== slot.start)
-    );
-  }, []);
 
   const removeMany = useCallback((target: SlotRef[]) => {
     const banned = new Set(target.map(slotKey));
@@ -89,15 +65,11 @@ export function useBookingSelection(
         courts: distinctCourtCount(slots),
         days: distinctDayCount(slots, timezone),
       },
-      estimatedMinor: estimatedTotalMinor(slots, (venue?.courts ?? []) as Court[]),
     };
-  }, [slots, timezone, venue?.courts, venue?.slotMinutes]);
+  }, [slots, timezone, venue?.slotMinutes]);
 
   return {
     slots,
-    isSelected,
-    add,
-    remove,
     removeMany,
     toggle,
     clear,

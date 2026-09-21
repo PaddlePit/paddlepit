@@ -19,7 +19,7 @@ function pad2(n: number): string {
   return String(n).padStart(2, "0");
 }
 
-export function isoDateFromParts(year: number, month: number, day: number): ISODate {
+function isoDateFromParts(year: number, month: number, day: number): ISODate {
   return `${year}-${pad2(month)}-${pad2(day)}`;
 }
 
@@ -234,10 +234,6 @@ export function daysOfWeek(weekStart: ISODate): ISODate[] {
 
 export function isPastSlot(startISO: ISODateTime, serverTimeISO: ISODateTime): boolean {
   return new Date(startISO).getTime() < new Date(serverTimeISO).getTime();
-}
-
-export function slotEnd(startISO: ISODateTime, minutes: number): ISODateTime {
-  return new Date(new Date(startISO).getTime() + minutes * MS_PER_MINUTE).toISOString();
 }
 
 export function totalMinutesText(totalMinutes: number): string {

@@ -102,17 +102,10 @@ class TinyQueryClient {
   }
 }
 
-let sharedClient: TinyQueryClient;
-
 export function getQueryClient(): TinyQueryClient {
-  if (typeof window === "undefined") {
-    // SSR/prerender: return the module-level instance so snapshots stay stable.
-    return (globalThis as { __ppQueryClient?: TinyQueryClient }).__ppQueryClient ?? new TinyQueryClient();
-  }
   const g = globalThis as { __ppQueryClient?: TinyQueryClient };
-  if (!g.__ppQueryClient) g.__ppQueryClient = new TinyQueryClient();
-  sharedClient = g.__ppQueryClient;
-  return sharedClient;
+  // One shared client per realm (browser + SSR) so snapshots stay consistent.
+  return (g.__ppQueryClient ??= new TinyQueryClient());
 }
 
 export interface UseQueryOptions<T> {
