@@ -190,7 +190,7 @@ export function CheckoutFlow() {
 
   if (success) {
     return (
-      <div className="mx-auto max-w-2xl px-4 py-16">
+      <div className="mx-auto max-w-2xl px-4 pt-28 pb-16">
         <Toaster />
         <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-emerald-light text-emerald-deep">
           <HugeiconsIcon icon={BadgeCheckIcon} strokeWidth={2} className="size-7" />
@@ -219,7 +219,7 @@ export function CheckoutFlow() {
 
   if (slots.length === 0) {
     return (
-      <div className="mx-auto max-w-2xl px-4 py-16 text-center">
+      <div className="mx-auto max-w-2xl px-4 pt-28 pb-16 text-center">
         <Toaster />
         <h1 className="font-serif text-2xl font-semibold text-emerald-deep">Checkout</h1>
         <p className="mt-2 text-sm text-emerald-deep/60">No slots were provided.</p>
@@ -234,7 +234,7 @@ export function CheckoutFlow() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8 pb-20">
+    <div className="mx-auto max-w-2xl px-4 pt-28 pb-20">
       <Toaster />
 
       <button

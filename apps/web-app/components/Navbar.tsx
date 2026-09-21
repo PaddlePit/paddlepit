@@ -15,9 +15,9 @@ import {
 } from "./ui/dropdown-menu";
 
 const links = [
-	{ href: "#hero", label: "Home" },
-	{ href: "#gallery", label: "Gallery" },
-	{ href: "#visit-us", label: "Visit Us" },
+	{ href: "/#hero", label: "Home" },
+	{ href: "/#gallery", label: "Gallery" },
+	{ href: "/#visit-us", label: "Visit Us" },
 ];
 
 export default function Navbar() {
@@ -49,7 +49,7 @@ export default function Navbar() {
 				hidden && "-translate-y-full"
 			)}
 		>
-			<div className="w-full h-fit flex flex-row bg-cream rounded-3xl max-w-[950] py-[16] justify-between items-center px-[20] mx-[20]">
+			<div className="w-full h-fit flex flex-row bg-cream rounded-3xl max-w-[950] py-[16] justify-between items-center px-[20] mx-[20] shadow-lg shadow-emerald-deep/10">
 				<div className="flex flex-row gap-[10] items-center">
 					{/* Mock Logo */}
 					<svg width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -64,7 +64,7 @@ export default function Navbar() {
 				<div className="flex flex-row gap-[20] justify-center items-center">
 					<div className="hidden min-[680px]:flex flex-row gap-[20] justify-center items-center">
 						{links.map((link) => (
-							<a
+							<Link
 								key={link.label}
 								href={link.href}
 								className={
@@ -74,10 +74,12 @@ export default function Navbar() {
 								}
 							>
 								{link.label}
-							</a>
+							</Link>
 						))}
 						<ContactUsModal />
-						<Button className="text-cream rounded-lg">Book Now</Button>
+						<Button asChild className="text-cream rounded-lg">
+							<Link href="/book">Book Now</Link>
+						</Button>
 					</div>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
@@ -94,8 +96,10 @@ export default function Navbar() {
 							<DropdownMenuItem asChild>
 								<ContactUsModal className="group/dropdown-menu-item relative flex w-full cursor-default items-center gap-2.5 rounded-2xl px-3 py-2 text-sm font-medium text-popover-foreground outline-hidden select-none focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground" />
 							</DropdownMenuItem>
-							<DropdownMenuItem asChild>
-								<Button className="w-full cream rounded-2xl">Book Now</Button>
+							<DropdownMenuItem>
+								<Button asChild className="w-full cream rounded-2xl">
+									<Link href="/book">Book Now</Link>
+								</Button>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>

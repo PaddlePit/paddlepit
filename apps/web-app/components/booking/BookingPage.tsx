@@ -174,7 +174,7 @@ export function BookingPage() {
       : "";
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 pb-32">
+    <div className="mx-auto max-w-4xl px-4 pt-28 pb-32">
       <Toaster />
 
       <header className="mb-6">

@@ -4,7 +4,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default function Hero() {
 	return (
-		<section id="hero" className="relative flex flex-col min-h-screen w-full justify-center items-center gap-[32] overflow-hidden pt-[44]">
+		<section id="hero" className="relative flex flex-col min-h-screen w-full justify-center items-center gap-[32] overflow-hidden pt-[44] scroll-mt-24">
 			<video
 				autoPlay
 				muted

@@ -24,7 +24,7 @@ export default function Gallery() {
 	const [selected, setSelected] = useState<number | null>(null);
 
 	return (
-		<section id="gallery" className="relative flex flex-col items-center max-w-[950] w-full gap-[32] overflow-hidden bg-cream px-[20] py-16">
+		<section id="gallery" className="relative flex flex-col items-center max-w-[950] w-full gap-[32] overflow-hidden bg-cream px-[20] py-16 scroll-mt-24">
 			<div className="flex flex-row w-full justify-between items-center">
 				<div className="flex flex-col gap-2">
 					<h1 className="text-left font-semibold min-[680]:text-[5xl] text-4xl font-[Lora] text-emerald">Gallery</h1>

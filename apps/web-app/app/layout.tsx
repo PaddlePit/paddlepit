@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter, Lora } from "next/font/google";
 import { cn } from "@/lib/utils";
+import Navbar from "@/components/Navbar";
 
 const loraHeading = Lora({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn("h-full", "antialiased", "font-sans", "scroll-smooth", inter.variable, loraHeading.variable)}
     >
       <body className="min-h-full flex flex-col justify-center bg-cream">
+        <Navbar />
         {children}
       </body>
     </html>

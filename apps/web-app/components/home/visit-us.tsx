@@ -11,7 +11,7 @@ const rates = [
 
 export default function VisitUs() {
 	return (
-		<section id="visit-us" className="py-20 bg-cream w-full">
+		<section id="visit-us" className="py-20 bg-cream w-full scroll-mt-24">
 			<div className="max-w-6xl mx-auto px-5">
 				<div className="mb-10">
 					<h2 className="font-serif text-3xl md:text-4xl font-semibold text-emerald-deep mb-1">Visit Us</h2>
