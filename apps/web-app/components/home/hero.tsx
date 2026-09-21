@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default function Hero() {
@@ -24,8 +25,12 @@ export default function Hero() {
 				</div>
 				<p className="text-center text-muted-foreground min-[680]:text-xl text-md">Book your court in seconds. <br /> Real-time availability, instant confirmation.</p>
 				<div className="flex min-[680]:flex-row w-full flex-col gap-[16]">
-					<Button variant="gold" size="xl" className="min-[680]:text-lg text-md min-[680]:w-fit w-full">Book a Court</Button>
-					<Button variant="cream" size="xl" className="min-[680]:text-lg text-md min-[680]:w-fit w-full">Check Availability</Button>
+					<Button asChild variant="gold" size="xl" className="min-[680]:text-lg text-md min-[680]:w-fit w-full">
+						<Link href="/book">Book a Court</Link>
+					</Button>
+					<Button asChild variant="cream" size="xl" className="min-[680]:text-lg text-md min-[680]:w-fit w-full">
+						<Link href="/book">Check Availability</Link>
+					</Button>
 				</div>
 			</div>
 		</section>

@@ -56,6 +56,9 @@
   --color-gold-muted: var(--gold-muted);
   --color-cream: var(--cream);
   --color-cream-foreground: var(--cream-foreground);
+  --color-clay-pale: var(--clay-pale);
+  --color-clay-mid: var(--clay-mid);
+  --color-clay-deep: var(--clay-deep);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -113,6 +116,9 @@
   --gold-muted: oklch(0.878 0.063 87.8);           /* Pale gold hover #E8D5A8 */
   --cream: oklch(0.973 0.007 97.4);                /* Cream #F7F6F1 */
   --cream-foreground: oklch(0.274 0.022 176.3);    /* Dark emerald */
+  --clay-pale: oklch(0.962 0.014 12.0);            /* Booked pale #FDECEA */
+  --clay-mid: oklch(0.835 0.074 22.0);             /* Booked border #F4A59E */
+  --clay-deep: oklch(0.545 0.155 27.0);            /* Booked text #C0392B */
 }
 .dark {
   /* PaddlePit Emerald & Cream — Dark Mode */
@@ -161,6 +167,9 @@
   --gold-muted: oklch(0.878 0.063 87.8);           /* Pale gold hover #E8D5A8 */
   --cream: oklch(0.973 0.007 97.4);                /* Cream #F7F6F1 */
   --cream-foreground: oklch(0.274 0.022 176.3);    /* Dark emerald */
+  --clay-pale: oklch(0.245 0.036 176.8);           /* Booked pale (dimmed) */
+  --clay-mid: oklch(0.54 0.11 25.0);               /* Booked border (dimmed) */
+  --clay-deep: oklch(0.68 0.14 27.0);              /* Booked text (dimmed) */
 }
 
 @layer base {
