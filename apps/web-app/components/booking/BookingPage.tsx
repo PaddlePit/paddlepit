@@ -18,7 +18,6 @@ import {
   buildEstimatedBreakdown,
   buildUnavailableSlotKeys,
   countSelectionByCourt,
-  parseSlotKey,
   slotKey,
 } from "@/services/mappers";
 import { formatMoney } from "@/lib/money";
@@ -145,10 +144,6 @@ export function BookingPage() {
     router.push(`/checkout?${params.toString()}`);
   };
 
-  const handleRemoveLine = (slotKeys: string[]) => {
-    selection.removeMany(slotKeys.map(parseSlotKey));
-  };
-
   const handleJumpNextDay = () => {
     if (!activeDate || !maxDate) return;
     const next = addBusinessDays(activeDate, 1);
@@ -270,8 +265,6 @@ export function BookingPage() {
           onOpenChange={setSheetOpen}
           venue={venue}
           estimated={estimated}
-          onRemoveLine={handleRemoveLine}
-          onClear={selection.clear}
           onCheckout={handleProceedToPayment}
         />
       )}

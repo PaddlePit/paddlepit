@@ -16,8 +16,6 @@ interface BookingBreakdownSheetProps {
   onOpenChange: (open: boolean) => void;
   venue: VenueConfig;
   estimated: BreakdownData;
-  onRemoveLine: (slotKeys: string[]) => void;
-  onClear: () => void;
   onCheckout: () => void;
 }
 
@@ -30,8 +28,6 @@ export function BookingBreakdownSheet({
   onOpenChange,
   venue,
   estimated,
-  onRemoveLine,
-  onClear,
   onCheckout,
 }: BookingBreakdownSheetProps) {
   const isEmpty = estimated.days.length === 0;
@@ -40,7 +36,7 @@ export function BookingBreakdownSheet({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/25 backdrop-blur-sm duration-100 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 z-[80] flex w-full max-w-[calc(100%-1.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-3xl bg-cream px-[20] py-[16] shadow-lg shadow-emerald-deep/10 ring-1 ring-emerald-deep/10 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 sm:max-w-[950px]">
+        <Dialog.Content className="fixed top-1/2 left-1/2 z-[80] flex max-h-[calc(100dvh-3rem)] w-full max-w-[calc(100%-1.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-3xl bg-cream px-[20] py-[16] shadow-lg shadow-emerald-deep/10 ring-1 ring-emerald-deep/10 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 sm:max-w-[950px]">
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-1">
               <Dialog.Title className="font-heading text-base leading-none font-semibold text-emerald-deep">
@@ -62,18 +58,13 @@ export function BookingBreakdownSheet({
             </Dialog.Close>
           </div>
 
-          <ScrollArea className="max-h-[50vh] pr-1">
+          <ScrollArea className="max-h-[46vh] min-h-0 pr-5 overflow-scroll">
             {isEmpty ? (
               <p className="py-8 text-center text-sm text-emerald-deep/50">
                 No slots selected yet.
               </p>
             ) : (
-              <BreakdownLines
-                data={estimated}
-                venue={venue}
-                removable
-                onRemoveLine={onRemoveLine}
-              />
+              <BreakdownLines data={estimated} venue={venue} />
             )}
           </ScrollArea>
 
@@ -87,23 +78,13 @@ export function BookingBreakdownSheet({
               </span>
             </div>
             <Separator className="mb-3" />
-            <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                onClick={onClear}
-                disabled={isEmpty}
-                className="rounded-xl text-emerald-deep"
-              >
-                Clear
-              </Button>
-              <Button
-                onClick={onCheckout}
-                disabled={isEmpty}
-                className="flex-1 rounded-xl bg-emerald-deep text-cream hover:bg-emerald-mid"
-              >
-                Proceed to Payment
-              </Button>
-            </div>
+            <Button
+              onClick={onCheckout}
+              disabled={isEmpty}
+              className="w-full rounded-xl bg-emerald-deep text-cream hover:bg-emerald-mid"
+            >
+              Proceed to Payment
+            </Button>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

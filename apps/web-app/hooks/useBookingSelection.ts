@@ -5,7 +5,6 @@ import type { SlotRef, VenueConfig } from "@/types/booking";
 import {
   countSelectionByCourt,
   countSelectionByDate,
-  slotKey,
 } from "@/services/mappers";
 import {
   distinctCourtCount,
@@ -20,7 +19,6 @@ import {
  */
 export interface BookingSelection {
   slots: SlotRef[];
-  removeMany: (slots: SlotRef[]) => void;
   toggle: (slot: SlotRef) => void;
   clear: () => void;
   countByDate: Record<string, number>;
@@ -33,11 +31,6 @@ export function useBookingSelection(
   venue: VenueConfig | undefined
 ): BookingSelection {
   const [slots, setSlots] = useState<SlotRef[]>([]);
-
-  const removeMany = useCallback((target: SlotRef[]) => {
-    const banned = new Set(target.map(slotKey));
-    setSlots((prev) => prev.filter((s) => !banned.has(slotKey(s))));
-  }, []);
 
   const toggle = useCallback(
     (slot: SlotRef) => {
@@ -70,7 +63,6 @@ export function useBookingSelection(
 
   return {
     slots,
-    removeMany,
     toggle,
     clear,
     isEmpty: slots.length === 0,

@@ -67,7 +67,7 @@ export function BookingSummaryBar({
           variant="ghost"
           size="sm"
           onClick={onClear}
-          className="hidden shrink-0 rounded-xl text-emerald-deep/60 sm:inline-flex"
+          className="shrink-0 rounded-xl text-emerald-deep/60"
         >
           Clear
         </Button>
