@@ -45,3 +45,10 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+.env
