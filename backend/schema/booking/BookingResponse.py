@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from ..utils import format_date, format_time
+from schema.utils import format_date, format_time
 
 
 class BookingTimeSlot(BaseModel):

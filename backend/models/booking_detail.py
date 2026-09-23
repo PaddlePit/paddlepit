@@ -14,7 +14,7 @@ class BookingDetail(SQLModel, table=True):
     booker_name: str
     phone: str
     email: str
-    courts_reserved: int
+    courts_reserved: list[str] = []
     total_price: float
     created_at: datetime = Field(default_factory=datetime.timezone)
 

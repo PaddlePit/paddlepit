@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException
 import uuid
 
-from ...schema.booking import CreateBookingRequest
+from schema.booking import CreateBookingRequest
 from api.utils.booking import (
     calculate_booking_duration_hours,
     calculate_booking_price,

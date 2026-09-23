@@ -1,9 +1,11 @@
 """PayMongo payment processing for bookings."""
 import requests
 import base64
-import os
+from config import get_settings
 
-PAYMONGO_SECRET_KEY = os.getenv("PAYMONGO_SECRET_KEY")
+settings = get_settings()
+
+PAYMONGO_SECRET_KEY = settings.PAYMONGO_SECRET_KEY
 PAYMONGO_API_URL = "https://api.paymongo.com/v1"
 
 

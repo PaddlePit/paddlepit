@@ -13,6 +13,6 @@ class AdminDetail(SQLModel, table=True):
     google_id: str = Field(unique=True)
     name: str
     email: str = Field(unique=True)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=datetime)
 
     cancellation_requests: list["CancellationRequestDetail"] = Relationship(back_populates="admin")

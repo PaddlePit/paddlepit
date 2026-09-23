@@ -2,8 +2,11 @@
 import hmac
 import hashlib
 import os
+from config import get_settings
 
-PAYMONGO_SECRET_KEY = os.getenv("PAYMONGO_SECRET_KEY")
+settings = get_settings()
+
+PAYMONGO_SECRET_KEY = settings.PAYMONGO_SECRET_KEY
 
 
 def verify_paymongo_signature(request_body: bytes, signature: str) -> bool:
