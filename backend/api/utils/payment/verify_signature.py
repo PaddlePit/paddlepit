@@ -8,7 +8,6 @@ settings = get_settings()
 
 PAYMONGO_SECRET_KEY = settings.PAYMONGO_SECRET_KEY
 
-
 def verify_paymongo_signature(request_body: bytes, signature: str) -> bool:
     """
     Verify PayMongo webhook signature for security.

@@ -3,12 +3,15 @@ PayMongo webhook event handler endpoint.
 Receives and processes payment status updates from PayMongo.
 """
 from fastapi import APIRouter, HTTPException, Request
+from config import get_settings
 from api.utils.payment import (
     verify_paymongo_signature,
     handle_payment_succeeded,
     handle_payment_failed,
     handle_payment_processing,
 )
+
+settings = get_settings()
 
 router = APIRouter()
 
@@ -28,18 +31,21 @@ async def webhook_paymongo(request: Request):
 
         # Get signature from headers
         signature = request.headers.get("X-Paymongo-Signature")
-        if not signature:
-            raise HTTPException(
-                status_code=400,
-                detail="Missing X-Paymongo-Signature header"
-            )
 
-        # Verify webhook signature
-        if not verify_paymongo_signature(body, signature):
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid webhook signature"
-            )
+        # Skip signature verification in development
+        if settings.ENVIRONMENT != "development":
+            if not signature:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Missing X-Paymongo-Signature header"
+                )
+
+            # Verify webhook signature
+            if not verify_paymongo_signature(body, signature):
+                raise HTTPException(
+                    status_code=401,
+                    detail="Invalid webhook signature"
+                )
 
         # Parse JSON payload
         payload = await request.json()
@@ -57,8 +63,6 @@ async def webhook_paymongo(request: Request):
         booking_id = payment_metadata.get("booking_id")
         customer_email = payment_metadata.get("email")
         payment_amount = event_attributes.get("amount")
-
-        print(f"Webhook received: {event_type} for booking {booking_id}")
 
         # Route to appropriate handler
         if event_type == "payment.succeeded":

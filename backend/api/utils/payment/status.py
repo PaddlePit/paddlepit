@@ -1,5 +1,5 @@
 """Query payment status for bookings."""
-from api.utils.payment.store import get_transaction
+from services.booking_service import BookingService
 
 
 def get_payment_status(booking_id: str) -> dict:
@@ -15,7 +15,8 @@ def get_payment_status(booking_id: str) -> dict:
         Dict with booking_id, status, payment_id, and amount (if found)
         Or not_found status if no transaction exists
     """
-    transaction = get_transaction(booking_id)
+    booking_service = BookingService()
+    transaction = booking_service.get_transaction_by_booking_id(booking_id)
 
     if not transaction:
         return {
@@ -27,6 +28,6 @@ def get_payment_status(booking_id: str) -> dict:
     return {
         "booking_id": booking_id,
         "status": transaction.get("status"),
-        "payment_id": transaction.get("paymongo_id"),
+        "payment_id": transaction.get("paymongo_transaction_id"),
         "amount": transaction.get("amount")
     }

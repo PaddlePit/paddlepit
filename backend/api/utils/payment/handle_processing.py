@@ -1,5 +1,5 @@
 """Handle payment processing events."""
-from api.utils.payment.store import set_transaction
+from services.booking_service import BookingService
 
 
 def handle_payment_processing(
@@ -20,10 +20,21 @@ def handle_payment_processing(
     """
     print(f"Payment processing for booking {booking_id}")
 
-    set_transaction(booking_id, {
-        "status": "processing",
-        "paymongo_id": payment_id
-    })
+    booking_service = BookingService()
+    transaction_table = booking_service.transaction_table
+
+    # Get transaction by booking_id, then update it
+    transaction = booking_service.get_transaction_by_booking_id(booking_id)
+    if transaction:
+        transaction_table.update_item(
+            Key={"id": transaction["id"]},
+            UpdateExpression="SET #status = :status, paymongo_transaction_id = :payment_id",
+            ExpressionAttributeNames={"#status": "status"},
+            ExpressionAttributeValues={
+                ":status": "processing",
+                ":payment_id": payment_id
+            }
+        )
 
     return {
         "status": "acknowledged",

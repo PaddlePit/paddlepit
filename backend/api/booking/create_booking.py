@@ -9,14 +9,12 @@ from api.utils.booking import (
     process_paymongo_payment,
     get_court_rate,
 )
+from services.booking_service import BookingService
+from services.discount_service import DiscountService
 
 router = APIRouter()
-
-# Dummy promo codes for discount validation
-DUMMY_PROMO_CODES = {
-    "PROMO20": {"discount_amount": 100, "is_active": True},
-    "WELCOME100": {"discount_amount": 500, "is_active": True}
-}
+booking_service = BookingService()
+discount_service = DiscountService()
 
 
 @router.post("/booking")
@@ -51,27 +49,60 @@ def create_booking(request: CreateBookingRequest):
 
         # Apply promo code discount if provided
         discount_amount = 0.0
+        discount_id = None
         if request.promo_code:
-            promo_code = request.promo_code.upper()
-            if promo_code not in DUMMY_PROMO_CODES:
+            try:
+                promo = discount_service.validate_promo_code(request.promo_code)
+                discount_amount = promo["discount_value"]
+                discount_id = promo["id"]
+                total_price = max(0, total_price - discount_amount)
+                # Increment usage count
+                discount_service.increment_usage(discount_id)
+            except ValueError as e:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"Invalid promo code: {promo_code}"
+                    detail=str(e)
                 )
-
-            promo = DUMMY_PROMO_CODES[promo_code]
-            if not promo["is_active"]:
-                raise HTTPException(
-                    status_code=400,
-                    detail="Promo code is no longer active"
-                )
-
-            discount_amount = promo["discount_amount"]
-            total_price = max(0, total_price - discount_amount)
 
         # Generate IDs
-        booking_id = str(uuid.uuid4())
-        public_transaction_id = f"TXN{uuid.uuid4().hex[:8].upper()}"
+        public_transaction_id = f"PDLPT{uuid.uuid4().hex[:8].upper()}"
+
+        # Create booking in database (service generates booking_id)
+        booking = booking_service.create_booking(
+            booker_name=request.booker_name,
+            phone=request.phone,
+            email=request.email,
+            courts_reserved=[item.court_id for item in request.booking_items],
+            total_price=total_price
+        )
+        booking_id = booking["id"]
+
+        # Create booking items in database
+        booking_items_response = []
+        for item in request.booking_items:
+            item_price = get_court_rate(item.court_id) * calculate_booking_duration_hours(item.start_time, item.end_time)
+            booking_item = booking_service.create_booking_item(
+                booking_id=booking_id,
+                court_id=item.court_id,
+                start_time=item.start_time.isoformat(),
+                end_time=item.end_time.isoformat(),
+                price=item_price
+            )
+            booking_items_response.append({
+                "court_id": item.court_id,
+                "start_time": item.start_time.isoformat(),
+                "end_time": item.end_time.isoformat(),
+                "price": item_price
+            })
+
+        # Create transaction record
+        transaction = booking_service.create_transaction(
+            booking_id=booking_id,
+            public_transaction_id=public_transaction_id,
+            amount=total_price,
+            payment_mode="card",
+            discount_id=discount_id
+        )
 
         # Convert amount to centavos (multiply by 100)
         amount_centavos = int(total_price * 100)
@@ -104,17 +135,8 @@ def create_booking(request: CreateBookingRequest):
             "email": request.email,
             "total_price": total_price,
             "discount_amount": discount_amount,
-            "booking_items": [
-                {
-                    "court_id": item.court_id,
-                    "start_time": item.start_time.isoformat(),
-                    "end_time": item.end_time.isoformat(),
-                    "price": get_court_rate(item.court_id) * calculate_booking_duration_hours(item.start_time, item.end_time)
-                }
-                for item in request.booking_items
-            ],
+            "booking_items": booking_items_response,
             "payment_intent_status": payment_result.get("status"),
-            "payment_method_allowed": ["card", "gcash", "paymaya"]
         }
 
     except HTTPException:

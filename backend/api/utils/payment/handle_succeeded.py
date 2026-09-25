@@ -1,6 +1,6 @@
 """Handle successful payment events."""
 from fastapi import HTTPException
-from api.utils.payment.store import set_transaction
+from services.booking_service import BookingService
 
 
 def handle_payment_succeeded(
@@ -24,21 +24,21 @@ def handle_payment_succeeded(
         Response dict with success status and transaction details
     """
     try:
-        # TODO: Update TransactionDetail in database with status 'paid'
-        # transaction = db.query(TransactionDetail).filter(
-        #     TransactionDetail.paymongo_transaction_id == payment_id
-        # ).first()
-        # if transaction:
-        #     transaction.status = "paid"
-        #     db.commit()
+        booking_service = BookingService()
+        transaction_table = booking_service.transaction_table
 
-        # For now: Store in-memory
-        set_transaction(booking_id, {
-            "status": "paid",
-            "paymongo_id": payment_id,
-            "amount": amount,
-            "email": email
-        })
+        # Get transaction by booking_id, then update it
+        transaction = booking_service.get_transaction_by_booking_id(booking_id)
+        if transaction:
+            transaction_table.update_item(
+                Key={"id": transaction["id"]},
+                UpdateExpression="SET #status = :status, paymongo_transaction_id = :payment_id",
+                ExpressionAttributeNames={"#status": "status"},
+                ExpressionAttributeValues={
+                    ":status": "paid",
+                    ":payment_id": payment_id
+                }
+            )
 
         print(f"Payment succeeded for booking {booking_id}")
         print(f"Amount: ₱{amount / 100:.2f}")
