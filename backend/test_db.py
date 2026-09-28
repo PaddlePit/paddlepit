@@ -3,7 +3,7 @@ Quick test to verify DynamoDB connection is working.
 Run: python test_db.py
 """
 
-from db.base import initialize_db
+from db import initialize_db
 from config import get_settings
 
 settings = get_settings()

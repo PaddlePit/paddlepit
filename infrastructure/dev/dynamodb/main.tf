@@ -169,6 +169,11 @@ resource "aws_dynamodb_table" "dev-transaction-table" {
     type = "S"
   }
 
+  attribute {
+    name = "public_transaction_id"
+    type = "S"
+  }
+
   global_secondary_index {
     name            = "BookingIdIndex"
     hash_key        = "booking_id"
@@ -178,6 +183,12 @@ resource "aws_dynamodb_table" "dev-transaction-table" {
   global_secondary_index {
     name            = "DiscountIdIndex"
     hash_key        = "discount_id"
+    projection_type = "ALL"
+  }
+
+  global_secondary_index {
+    name            = "PublicTransactionIdIndex"
+    hash_key        = "public_transaction_id"
     projection_type = "ALL"
   }
 

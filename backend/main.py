@@ -26,7 +26,7 @@ app.include_router(promo_router)
 app.include_router(webhook_router)
 app.include_router(payment_status_router) 
 
-from db.base import initialize_db
+from db import initialize_db
 
 # @app.get("/health/db")
 # def db_health_check():

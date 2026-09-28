@@ -1,6 +1,6 @@
 """Database service for discount/promo code operations."""
 
-from db.base import initialize_db
+from db import initialize_db
 from datetime import datetime
 from decimal import Decimal
 
