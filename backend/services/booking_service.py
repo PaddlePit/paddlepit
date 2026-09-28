@@ -166,8 +166,9 @@ class BookingService:
     def get_transaction_by_public_id(self, public_transaction_id: str) -> dict | None:
         """Retrieve a transaction by public transaction ID."""
         try:
-            response = self.transaction_table.scan(
-                FilterExpression="public_transaction_id = :pid",
+            response = self.transaction_table.query(
+                IndexName="PublicTransactionIdIndex",
+                KeyConditionExpression="public_transaction_id = :pid",
                 ExpressionAttributeValues={":pid": public_transaction_id}
             )
             items = response.get("Items", [])
