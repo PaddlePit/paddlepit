@@ -6,10 +6,10 @@ from api.utils import (
     sanitize_string,
 )
 from services.booking_service import BookingService
+from datetime import datetime
 
 router = APIRouter()
 booking_service = BookingService()
-
 
 @router.get("/booking", response_model=list[AllBookingsResponse])
 def get_all_bookings():
@@ -33,16 +33,16 @@ def get_all_bookings():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-@router.get("/booking/{transaction_id}", response_model=BookingResponse)
-def get_specific_booking(transaction_id: str):
+@router.get("/booking/{public_transaction_id}", response_model=BookingResponse)
+def get_specific_booking(public_transaction_id: str):
     """Retrieve a specific booking with formatted dates and times"""
 
     try:
         # Validate transaction ID (string with security checks)
-        validate_transaction_id(transaction_id)
+        validate_transaction_id(public_transaction_id)
 
         # Get transaction by public_transaction_id
-        transaction = booking_service.get_transaction_by_public_id(transaction_id)
+        transaction = booking_service.get_transaction_by_public_id(public_transaction_id)
 
         if not transaction:
             raise HTTPException(status_code=404, detail="Booking not found")
@@ -56,29 +56,40 @@ def get_specific_booking(transaction_id: str):
         # Validate and sanitize email
         email = sanitize_string(booking["email"])
 
-        # Format booking details
-        booking_items = []
-        if booking.get("courts_reserved"):
-            for court_id in booking["courts_reserved"]:
-                booking_items.append({
-                    "court_name": f"Court {court_id}",
-                    "start_time": booking.get("created_at"),
-                    "end_time": booking.get("created_at"),
-                })
+        # Get booking items (actual time slots) for this booking
+        booking_response = booking_service.booking_item_table.scan(
+            FilterExpression="booking_id = :bid",
+            ExpressionAttributeValues={":bid": booking["id"]}
+        )
 
-        if len(booking_items) == 0:
+        booking_items = booking_response.get("Items", [])
+        if not booking_items:
             raise ValueError("Booking must have at least one time slot")
 
-        # Format all bookings
+        # Format booking items with actual start/end times
         formatted_bookings = []
         for index, item in enumerate(booking_items):
             try:
-                formatted_bookings.append(format_booking(item))
+                start_time = item.get("start_time")
+                end_time = item.get("end_time")
+
+                # Parse datetime strings if they're strings
+                if isinstance(start_time, str):
+                    start_time = datetime.fromisoformat(start_time.replace('Z', '+00:00'))
+                if isinstance(end_time, str):
+                    end_time = datetime.fromisoformat(end_time.replace('Z', '+00:00'))
+
+                formatted_item = {
+                    "court_name": item.get('court_id'),
+                    "date": start_time,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                }
+                formatted_bookings.append(format_booking(formatted_item))
             except ValueError as e:
                 raise ValueError(f"Error in booking {index + 1}: {str(e)}")
 
         return {
-            "public_transaction_id": transaction.get("public_transaction_id"),
             "email": email,
             "status": transaction.get("status", "pending"),
             "bookings": formatted_bookings,

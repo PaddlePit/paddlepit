@@ -3,10 +3,11 @@ from uuid import UUID
 from datetime import datetime
 
 class AllBookingsResponse(BaseModel):
-    booking_id: UUID
+    id: str
     booker_name: str
     phone: str
     email: str
-    courts_reserved: int
+    courts_reserved: list[str]
     total_price: float
-    created_at: datetime
+    updated_at: str
+    created_at: str

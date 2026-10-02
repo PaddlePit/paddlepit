@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     PAYMONGO_SECRET_KEY: Optional[str] = None
     PAYMONGO_PUBLIC_KEY: Optional[str] = None
     PAYMONGO_WEBHOOK_SECRET: Optional[str] = None
+    MOCK_PAYMENTS: bool = False
 
     # Google OAuth
     GOOGLE_CLIENT_ID: Optional[str] = None

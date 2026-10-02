@@ -41,7 +41,7 @@ class DiscountService:
             raise ValueError("Promo code is no longer active")
 
         # Check valid date range
-        now = datetime.utcnow()
+        now = datetime.now(datetime.UTC)
         valid_from = datetime.fromisoformat(promo.get("valid_from", "")) if isinstance(promo.get("valid_from"), str) else promo.get("valid_from")
         valid_until = datetime.fromisoformat(promo.get("valid_until", "")) if isinstance(promo.get("valid_until"), str) else promo.get("valid_until")
 

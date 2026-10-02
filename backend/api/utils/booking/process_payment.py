@@ -31,6 +31,15 @@ def process_paymongo_payment(amount_centavos: int, booking_id: str, email: str) 
         ...     payment_id = result["payment_intent_id"]
         ...     client_key = result["client_key"]
     """
+    # Mock payment for testing
+    if settings.MOCK_PAYMENTS:
+        return {
+            "success": True,
+            "payment_intent_id": f"pi_mock_{booking_id}",
+            "client_key": f"key_mock_{booking_id}",
+            "status": "succeeded"
+        }
+
     try:
         # Validate amount
         if amount_centavos <= 0:

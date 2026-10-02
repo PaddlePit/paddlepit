@@ -8,6 +8,7 @@ from api.utils.booking import (
     calculate_booking_price,
     process_paymongo_payment,
     get_court_rate,
+    validate_booking_dates,
 )
 from services.booking_service import BookingService
 from services.discount_service import DiscountService
@@ -43,6 +44,9 @@ def create_booking(request: CreateBookingRequest):
                 status_code=400,
                 detail="At least one booking item is required"
             )
+
+        # Validate booking dates are in the future
+        validate_booking_dates(request.booking_items)
 
         # Calculate total price
         total_price = calculate_booking_price(request.booking_items)

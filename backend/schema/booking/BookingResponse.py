@@ -13,7 +13,6 @@ class BookingTimeSlot(BaseModel):
 
 class BookingResponse(BaseModel):
     """Response for specific booking with transaction details"""
-    public_transaction_id: Optional[int] = None
     email: str
     status: str
     bookings: list[BookingTimeSlot]
