@@ -1,11 +1,15 @@
 from fastapi import FastAPI
 
 from api.check_availability import router as availability_router
-from api.booking.create_booking import router as create_booking_router
-from api.booking.get_booking import router as get_booking_router
-from api.booking.promo import router as promo_router
-from api.payment.webhook import router as webhook_router
-from api.payment.status import router as payment_status_router
+from api.booking import (
+    create_booking_router,
+    get_booking_router,
+    promo_router,
+)
+from api.payment import (
+    webhook_router,
+    status_router,
+)
 
 app = FastAPI(
     title="PaddlePit API",
@@ -26,7 +30,7 @@ app.include_router(create_booking_router)
 app.include_router(get_booking_router)
 app.include_router(promo_router)
 app.include_router(webhook_router)
-app.include_router(payment_status_router) 
+app.include_router(status_router) 
 
 from db import initialize_db
 

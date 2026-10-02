@@ -58,8 +58,14 @@ def create_booking(request: CreateBookingRequest):
             try:
                 promo = discount_service.validate_promo_code(request.promo_code)
                 discount_amount = promo["discount_value"]
+                if promo["discount_type"] == "percentage": 
+                    discount_percentage_value = total_price * (discount_amount / 100)
+                    total_price = max(0, total_price - discount_percentage_value)
+
+                if promo["discount_type"] == "fixed_amount": 
+                    total_price = max(0, total_price - discount_amount)
+                
                 discount_id = promo["id"]
-                total_price = max(0, total_price - discount_amount)
                 # Increment usage count
                 discount_service.increment_usage(discount_id)
             except ValueError as e:
@@ -130,7 +136,6 @@ def create_booking(request: CreateBookingRequest):
         # Payment intent created successfully
         return {
             "status": "success",
-            "message": "Booking created. Payment intent ready.",
             "booking_id": booking_id,
             "transaction_id": public_transaction_id,
             "paymongo_transaction_id": payment_result.get("payment_intent_id"),
