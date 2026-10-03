@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from schema.booking import BookingResponse, AllBookingsResponse
 from api.utils import (
     validate_transaction_id,
@@ -7,11 +7,11 @@ from api.utils import (
 )
 from services.booking_service import BookingService
 from datetime import datetime
+from . import booking_router
 
-router = APIRouter()
 booking_service = BookingService()
 
-@router.get("/booking", response_model=list[AllBookingsResponse])
+@booking_router.get("/booking", response_model=list[AllBookingsResponse])
 def get_all_bookings():
     """Retrieve all bookings with basic information"""
     try:
@@ -33,7 +33,7 @@ def get_all_bookings():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-@router.get("/booking/{public_transaction_id}", response_model=BookingResponse)
+@booking_router.get("/booking/{public_transaction_id}", response_model=BookingResponse)
 def get_specific_booking(public_transaction_id: str):
     """Retrieve a specific booking with formatted dates and times"""
 

@@ -1,8 +1,8 @@
-"""Booking API endpoints."""
-from .create import router as create_booking_router
-from .get import router as get_booking_router
+from fastapi import APIRouter
 
-__all__ = [
-    "create_booking_router",
-    "get_booking_router",
-]
+booking_router = APIRouter()
+
+# Import endpoint modules to register routes
+from . import create, get
+
+__all__ = ["booking_router"]

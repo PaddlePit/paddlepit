@@ -1,13 +1,12 @@
 """Validate promo code endpoint."""
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from schema.promo import PromoValidationResponse
 from services.discount_service import DiscountService
+from . import promo_router
 
-router = APIRouter()
 discount_service = DiscountService()
 
-
-@router.get("/promo/{code}", response_model=PromoValidationResponse)
+@promo_router.get("/promo/{code}", response_model=PromoValidationResponse)
 def validate_promo(code: str):
     """
     Validate a promo code and return discount details if valid.

@@ -1,12 +1,11 @@
 """List promo codes endpoint."""
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 from services.discount_service import DiscountService
+from . import promo_router
 
-router = APIRouter()
 discount_service = DiscountService()
 
-
-@router.get("/promo")
+@promo_router.get("/promo")
 def list_all_promos(active_only: bool = True):
     """
     List all promo codes.

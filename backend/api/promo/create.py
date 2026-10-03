@@ -1,14 +1,13 @@
-"""Create promo code endpoint."""
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import HTTPException
 from schema.promo import CreatePromoRequest, PromoResponse
 from services.discount_service import DiscountService
+from . import promo_router
 
-router = APIRouter()
 discount_service = DiscountService()
 
 
-@router.post("/promo", response_model=PromoResponse)
-def create_promo(request: CreatePromoRequest, _: Request):
+@promo_router.post("/promo", response_model=PromoResponse)
+def create_promo(request: CreatePromoRequest):
     """
     Create a new promo code.
 

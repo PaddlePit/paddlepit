@@ -1,14 +1,14 @@
 """Update promo code endpoint."""
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import HTTPException
 from schema.promo import UpdatePromoRequest, PromoResponse
 from services.discount_service import DiscountService
+from . import promo_router
 
-router = APIRouter()
 discount_service = DiscountService()
 
 
-@router.put("/promo/{code}", response_model=PromoResponse)
-def update_promo(code: str, request: UpdatePromoRequest, _: Request):
+@promo_router.put("/promo/{code}", response_model=PromoResponse)
+def update_promo(code: str, request: UpdatePromoRequest):
     """
     Update an existing promo code.
 

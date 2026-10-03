@@ -1,13 +1,13 @@
 """Delete promo code endpoint."""
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import HTTPException
 from services.discount_service import DiscountService
+from . import promo_router
 
-router = APIRouter()
 discount_service = DiscountService()
 
 
-@router.delete("/promo/{code}")
-def delete_promo(code: str, _: Request):
+@promo_router.delete("/promo/{code}")
+def delete_promo(code: str):
     """
     Delete a promo code (soft delete - marks as inactive).
 

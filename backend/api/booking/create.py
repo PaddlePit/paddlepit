@@ -1,6 +1,7 @@
 """Create booking endpoint with payment processing."""
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
 import uuid
+from . import booking_router
 
 from schema.booking import CreateBookingRequest
 from api.utils.booking import (
@@ -13,12 +14,11 @@ from api.utils.booking import (
 from services.booking_service import BookingService
 from services.discount_service import DiscountService
 
-router = APIRouter()
 booking_service = BookingService()
 discount_service = DiscountService()
 
 
-@router.post("/booking")
+@booking_router.post("/booking")
 def create_booking(request: CreateBookingRequest):
     """
     Create a new booking and process payment through PayMongo.

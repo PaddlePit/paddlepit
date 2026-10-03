@@ -1,24 +1,8 @@
-"""Promo code API endpoints."""
-from .validate import router as validate_router
-from .create import router as create_router
-from .list import router as list_router
-from .update import router as update_router
-from .delete import router as delete_router
+from fastapi import APIRouter
 
-# Combine all promo routers into a list
-promo_routers = [
-    validate_router,
-    create_router,
-    list_router,
-    update_router,
-    delete_router,
-]
+promo_router = APIRouter()
 
-__all__ = [
-    "promo_routers",
-    "validate_router",
-    "create_router",
-    "list_router",
-    "update_router",
-    "delete_router",
-]
+# Import endpoint modules to register routes
+from . import create, list, update, delete, validate
+
+__all__ = ["promo_router"]
