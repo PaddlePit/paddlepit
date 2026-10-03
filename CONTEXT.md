@@ -6,6 +6,7 @@ STACK:
 - FastAPI + Python + Uvicorn
 - AWS Lambda + API Gateway
 - DynamoDB + S3
+- Terraform
 - SES for email
 - PayMongo for payments
 - uv for Python dependency management

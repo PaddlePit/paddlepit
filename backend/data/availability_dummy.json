@@ -1,0 +1,403 @@
+{
+  "week": {
+    "start_date": "2026-09-09",
+    "end_date": "2026-12-31"
+  },
+  "courts": [
+    {
+      "id": "court-1",
+      "name": "Court 1",
+      "hourly_rate": 250
+    },
+    {
+      "id": "court-2",
+      "name": "Court 2",
+      "hourly_rate": 250
+    },
+    {
+      "id": "court-3",
+      "name": "Court 3",
+      "hourly_rate": 250
+    }
+  ],
+  "availability": [
+    {
+      "date": "2026-08-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-08-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "07:00-08:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "07:00-08:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "07:00-08:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "08:00-09:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "08:00-09:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "08:00-09:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "09:00-10:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "09:00-10:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "09:00-10:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "10:00-11:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "10:00-11:00",
+      "status": "selected"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "10:00-11:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "11:00-12:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "11:00-12:00",
+      "status": "selected"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "11:00-12:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "12:00-13:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "12:00-13:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "12:00-13:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "13:00-14:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "13:00-14:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "13:00-14:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "14:00-15:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "14:00-15:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "14:00-15:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-1",
+      "time_slot": "15:00-16:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-2",
+      "time_slot": "15:00-16:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-09",
+      "day": "WED",
+      "court_id": "court-3",
+      "time_slot": "15:00-16:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-1",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-2",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-3",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-1",
+      "time_slot": "07:00-08:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-2",
+      "time_slot": "07:00-08:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-3",
+      "time_slot": "07:00-08:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-1",
+      "time_slot": "08:00-09:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-2",
+      "time_slot": "08:00-09:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-10",
+      "day": "THU",
+      "court_id": "court-3",
+      "time_slot": "08:00-09:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-11",
+      "day": "FRI",
+      "court_id": "court-1",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-11",
+      "day": "FRI",
+      "court_id": "court-2",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-11",
+      "day": "FRI",
+      "court_id": "court-3",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-12",
+      "day": "SAT",
+      "court_id": "court-1",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-12",
+      "day": "SAT",
+      "court_id": "court-2",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-12",
+      "day": "SAT",
+      "court_id": "court-3",
+      "time_slot": "06:00-07:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-13",
+      "day": "SUN",
+      "court_id": "court-1",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-13",
+      "day": "SUN",
+      "court_id": "court-2",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-13",
+      "day": "SUN",
+      "court_id": "court-3",
+      "time_slot": "06:00-07:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-14",
+      "day": "MON",
+      "court_id": "court-1",
+      "time_slot": "10:00-11:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-14",
+      "day": "MON",
+      "court_id": "court-2",
+      "time_slot": "10:00-11:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-14",
+      "day": "MON",
+      "court_id": "court-3",
+      "time_slot": "10:00-11:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-15",
+      "day": "TUE",
+      "court_id": "court-1",
+      "time_slot": "14:00-15:00",
+      "status": "available"
+    },
+    {
+      "date": "2026-09-15",
+      "day": "TUE",
+      "court_id": "court-2",
+      "time_slot": "14:00-15:00",
+      "status": "booked"
+    },
+    {
+      "date": "2026-09-15",
+      "day": "TUE",
+      "court_id": "court-3",
+      "time_slot": "14:00-15:00",
+      "status": "available"
+    }
+  ]
+}
