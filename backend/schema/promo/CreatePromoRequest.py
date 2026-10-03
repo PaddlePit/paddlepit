@@ -1,18 +1,25 @@
 """Request schema for creating promo codes."""
 from pydantic import BaseModel, field_validator
 from datetime import datetime
-from typing import Literal
 
 
 class CreatePromoRequest(BaseModel):
     """Request to create a new promo code."""
     coupon_code: str
-    discount_type: Literal["percentage", "fixed_amount"]
+    discount_type: str
     discount_value: float
     valid_from: datetime
     valid_until: datetime
     usage_limit: int
     is_active: bool = True
+
+    @field_validator("discount_type")
+    @classmethod
+    def validate_discount_type(cls, v: str) -> str:
+        allowed_types = ["percentage", "fixed_amount"]
+        if v not in allowed_types:
+            raise ValueError("Invalid discount type.")
+        return v
 
     @field_validator("coupon_code")
     @classmethod
