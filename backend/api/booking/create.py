@@ -13,9 +13,11 @@ from api.utils.booking import (
 )
 from services.booking_service import BookingService
 from services.discount_service import DiscountService
+from services.court_service import CourtService
 
 booking_service = BookingService()
 discount_service = DiscountService()
+court_service = CourtService()
 
 
 @booking_router.post("/booking")
@@ -44,6 +46,15 @@ def create_booking(request: CreateBookingRequest):
                 status_code=400,
                 detail="At least one booking item is required"
             )
+
+        # Validate that all courts exist
+        for item in request.booking_items:
+            court = court_service.get_court(item.court_id)
+            if not court:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Court '{item.court_id}' does not exist"
+                )
 
         # Validate booking dates are in the future
         validate_booking_dates(request.booking_items)

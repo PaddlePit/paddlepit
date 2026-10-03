@@ -2,6 +2,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 from api.utils.booking.calculate_duration import calculate_booking_duration_hours
+from services.court_service import CourtService
 
 
 class BookingItem(BaseModel):
@@ -9,14 +10,6 @@ class BookingItem(BaseModel):
     court_id: str
     start_time: datetime
     end_time: datetime
-
-
-# Court rates in pesos per hour
-COURT_RATES = {
-    "court-1": 250,
-    "court-2": 250,
-    "court-3": 250
-}
 
 
 def calculate_booking_price(booking_items: list[BookingItem]) -> float:
@@ -34,24 +27,26 @@ def calculate_booking_price(booking_items: list[BookingItem]) -> float:
     Raises:
         ValueError: If court_id is invalid or time range is invalid
     """
+    court_service = CourtService()
     total = 0.0
 
     for item in booking_items:
-        # Validate court ID
-        if item.court_id not in COURT_RATES:
+        # Validate court exists and get its rate
+        court = court_service.get_court(item.court_id)
+        if not court:
             raise ValueError(f"Invalid court ID: {item.court_id}")
 
         # Calculate duration
         duration_hours = calculate_booking_duration_hours(item.start_time, item.end_time)
 
         # Calculate price for this court
-        court_rate = COURT_RATES[item.court_id]
+        court_rate = court["hourly_rate"]
         total += court_rate * duration_hours
 
     return total
 
 
-def get_court_rate(court_id: str) -> int:
+def get_court_rate(court_id: str) -> float:
     """
     Get hourly rate for a specific court.
 
@@ -64,7 +59,10 @@ def get_court_rate(court_id: str) -> int:
     Raises:
         ValueError: If court_id is invalid
     """
-    if court_id not in COURT_RATES:
+    court_service = CourtService()
+    court = court_service.get_court(court_id)
+
+    if not court:
         raise ValueError(f"Invalid court ID: {court_id}")
 
-    return COURT_RATES[court_id]
+    return court["hourly_rate"]

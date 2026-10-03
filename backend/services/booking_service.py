@@ -1,9 +1,9 @@
 """Database service for booking operations."""
 
-from db import initialize_db
 from uuid import uuid4
 from datetime import datetime
 from decimal import Decimal
+from db import initialize_db
 
 
 class BookingService:

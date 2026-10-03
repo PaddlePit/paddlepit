@@ -24,7 +24,6 @@ def list_all_promos(active_only: bool = True):
             promos = [p for p in promos if p.get("is_active", True)]
 
         return {
-            "count": len(promos),
             "promos": [
                 {
                     "id": p.get("id"),

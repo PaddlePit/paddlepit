@@ -5,8 +5,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pythonjsonlogger import jsonlogger
 
-from api.utils.validation.check_availability import router as availability_router
-from api import promo_router, webhook_router, booking_router
+from api.booking.check_availability import router as availability_router
+from api import promo_router, webhook_router, booking_router, court_router
 
 # Set up JSON logger
 logger = logging.getLogger("paddlepit.api")
@@ -17,7 +17,6 @@ console_handler = logging.StreamHandler()
 json_formatter = jsonlogger.JsonFormatter()
 console_handler.setFormatter(json_formatter)
 logger.addHandler(console_handler)
-
 
 app = FastAPI(
     title="PaddlePit API",
@@ -58,7 +57,6 @@ async def validation_exception_handler(request, exc):
         }
     )
 
-
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
@@ -66,5 +64,6 @@ def health_check():
 
 app.include_router(availability_router)
 app.include_router(booking_router)
+app.include_router(court_router)
 app.include_router(promo_router)
 app.include_router(webhook_router) 

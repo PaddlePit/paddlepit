@@ -4,7 +4,6 @@ from db import initialize_db
 from datetime import datetime
 from decimal import Decimal
 
-
 class DiscountService:
     def __init__(self):
         self.ddb = initialize_db()
